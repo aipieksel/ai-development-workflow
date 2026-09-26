@@ -1,0 +1,13 @@
+interface:
+  display_name: AI Development Workflow
+  short_description: Plan, criticize, revise and execute project work
+  default_prompt: "Use $ai-development-workflow 012 to create, plan and criticize a new record, or 12 to update and review the selected existing record."
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true
