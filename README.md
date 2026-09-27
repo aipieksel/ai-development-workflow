@@ -2,14 +2,16 @@
 
 Maintained by [aipieksel](https://github.com/aipieksel). Upstream credits and licenses remain with their respective authors.
 
-Use `$ai-development-workflow` followed by the stages you want. Only **0** creates a record. Without 0, the skill works on the selected existing record; if none is available, it asks instead of creating one.
+AI Development Workflow is a Codex skill for carrying a software task from a request through a durable plan, critical review, implementation, and evidence-backed completion. It keeps the original request, checklist, plan, critique, and results together in one task record so later corrections can amend the same work without losing its history.
+
+Choose the stages you need when invoking the skill. `0123` starts a new record and carries it through execution; later calls can plan, review, execute, revise, or resume the selected record. The skill checks that the plan matches the user's request before code changes and that completion is supported by actual verification. It does not grant permission to publish or deploy.
 
 | Stage | Action |
 | --- | --- |
 | 0 | Create and select a new draft record |
 | 1 | Build or update its checklist and implementation/test plan |
 | 2 | Criticize and correct the plan against the original request |
-| 3 | Execute, verify, and mark complete when all required outcomes are proven |
+| 3 | Execute, verify, and complete the record when every outcome is proven |
 
 ## Examples
 
