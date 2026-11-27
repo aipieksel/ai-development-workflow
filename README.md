@@ -1,4 +1,4 @@
-# AI Development Workflow v2.0.0
+# AI Development Workflow — Version 2
 
 **One portable agent-development skill for planning, criticizing, building, reviewing and verifying development work.** The complete skill can be used in ChatGPT, Codex, Claude, DeepSeek, and other compatible hosts that can load its instruction bundle and provide the workers and tools required by the selected task. Describe the task, and the workflow discovers appropriate operations and expertise while preserving the original request, existing work and evidence of completion.
 

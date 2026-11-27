@@ -31,6 +31,13 @@ FORBIDDEN_ROOTS = {"agents-pro-v2", "integrations", "documents", "tasks", "node_
 FORBIDDEN_FILES = {"agents-pro.queue.json", "agents-pro.skill.json", "agents-pro.skill.v2.json",
                    "scripts/workflow_picker.py", "references/portable-picker.md", "specialists/vscode-agents-pro.md"}
 BT = chr(96)
+DISPLAY_IDENTITY = "AI Development Workflow — Version 2"
+DISPLAY_HEADING = f"# {DISPLAY_IDENTITY}"
+DISPLAY_RELEASE_NOTES = (
+    "Version 2 introduces the complete portable workflow: five public modes, six canonical "
+    "worker families, preserved advanced controls, task-aware resource discovery, "
+    "execution-bound evidence, independent verification and complete local-skill/plugin packaging."
+)
 
 
 def require(condition: bool, message: str) -> None:
@@ -152,6 +159,10 @@ def command_inventory(members: dict[str, bytes]) -> list[dict]:
     return sorted(commands, key=lambda item: item["code"])
 
 
+def first_h1(text: str) -> str | None:
+    return next((line for line in text.splitlines() if line.startswith("# ")), None)
+
+
 def load_sources(root: Path) -> tuple[dict[str, bytes], dict[str, bytes], dict]:
     root = root.resolve()
     for name in FORBIDDEN_FILES | {"agents-pro-v2", "integrations"}:
@@ -178,11 +189,20 @@ def load_sources(root: Path) -> tuple[dict[str, bytes], dict[str, bytes], dict]:
                     require(name in runtime, f"Unlisted runtime file; update inventory: {name}")
     version = runtime["VERSION"].decode().strip()
     require(bool(re.fullmatch(r"\d+\.\d+\.\d+", version)), "Invalid release VERSION")
-    require(f"# AI Development Workflow v{version}" in runtime["SKILL.md"].decode(),
-            "Main skill heading and VERSION disagree")
+    require(first_h1(runtime["README.md"].decode()) == DISPLAY_HEADING,
+            "README display identity mismatch")
+    skill_heading = first_h1(runtime["SKILL.md"].decode())
+    require(skill_heading == DISPLAY_HEADING or (
+        isinstance(skill_heading, str) and skill_heading.startswith(DISPLAY_HEADING + " — ")
+    ), "Main skill display identity mismatch")
+    require(first_h1(runtime["references/advanced-reference.md"].decode()) == DISPLAY_HEADING,
+            "Advanced reference display identity mismatch")
+    metadata = runtime.get("agents/openai.yaml", b"").decode("utf-8")
+    display_name = re.search(r'(?m)^  display_name: "([^"]+)"\s*$', metadata)
+    require(display_name is not None and display_name.group(1) == DISPLAY_IDENTITY,
+            "Main skill interface display identity mismatch")
     require(f"## {version}" in runtime["CHANGELOG.md"].decode(),
             "CHANGELOG does not include this source version")
-    require(version in runtime["README.md"].decode(), "README omits this source version")
     commands = command_inventory(runtime)
     profiles = sorted(name for name in runtime if name.endswith("/agent.md"))
     expected = inventory.get("expected", {})
@@ -259,6 +279,8 @@ def load_sources(root: Path) -> tuple[dict[str, bytes], dict[str, bytes], dict]:
             require(not name.startswith("skills/ai-development-workflow/"),
                     "A second canonical runtime must not live in the plugin template")
             plugin[name] = read_source(template_root, name)
+    require(first_h1(plugin["README.md"].decode()) == DISPLAY_HEADING,
+            "Plugin README display identity mismatch")
     aliases = sorted(name for name in plugin if re.fullmatch(r"skills/[^/]+/SKILL\.md", name))
     require(not aliases and expected.get("launcher_aliases") == 0,
             "A public plugin must contain one main skill and no launcher alias skills")
@@ -272,6 +294,12 @@ def load_sources(root: Path) -> tuple[dict[str, bytes], dict[str, bytes], dict]:
         require(manifest.get("version") == version, "Plugin manifest version mismatch")
         interface = manifest.get("interface") or manifest.get("extensions", {}).get(
             "com.openai", {}).get("interface", {})
+        require(interface.get("displayName") == DISPLAY_IDENTITY,
+                "Plugin display identity mismatch")
+        publication = manifest.get("publication") or manifest.get("extensions", {}).get(
+            "com.openai", {}).get("publication", {})
+        require(publication.get("release_notes") == DISPLAY_RELEASE_NOTES,
+                "Plugin Version 2 release notes mismatch")
         require(isinstance(interface.get("shortDescription"), str)
                 and 0 < len(interface["shortDescription"]) <= 30,
                 "Plugin short description must contain 1 to 30 characters")
@@ -293,9 +321,6 @@ def load_sources(root: Path) -> tuple[dict[str, bytes], dict[str, bytes], dict]:
     skill_entries = sorted(name for name in plugin if re.fullmatch(r"skills/[^/]+/SKILL\.md", name))
     require(skill_entries == ["skills/ai-development-workflow/SKILL.md"],
             "Plugin must expose exactly one canonical main skill")
-    metadata = runtime.get("agents/openai.yaml", b"").decode("utf-8")
-    require(f"AI Development Workflow v{version}" in metadata,
-            "Main skill interface version is stale")
     plugin_links = validate_links(plugin, "full plugin")
     report = {
         "status": "passed", "version": version, "runtime_files": len(runtime),

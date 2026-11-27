@@ -5,7 +5,7 @@
 ### Release provenance
 
 - Establish `v2.0.0` as the first formal Version 2 tag/release. The next routine patch release is `2.0.1`; a future GitHub release title remains publication metadata rather than a source-version override.
-- Record that public commit `9df3b6b` carried an untagged mistaken/preparatory `2.0.4` source label before the first formal release. It was not a formal `2.0.4` tag/release. Consumers of that labelled source may observe the normalized version as a downgrade, and no automatic installed-plugin downgrade is promised.
+- Record that public commit `9df3b6b` carried an untagged mistaken/preparatory higher patch source label before the first formal release. It was not a formal tag/release. Consumers of that labelled source may observe the normalized version as a downgrade, and no automatic installed-plugin downgrade is promised.
 
 ### Portable hosts and task-aware discovery
 
@@ -39,7 +39,7 @@
 
 ### Public version baseline
 
-- Establish `2.0.0` as the first formal Version 2 release by explicit owner decision. Before this normalization, public `main` carried the untagged `2.0.4` source label recorded above; no `v2.0.4` tag, GitHub Release or historical `1.0.0` release is asserted.
+- Establish `2.0.0` as the first formal Version 2 release by explicit owner decision. Before this normalization, public `main` carried the untagged higher patch source label recorded above; no corresponding tag, GitHub Release or historical `1.0.0` release is asserted.
 - Normalize the prepared Version 2 candidate to `2.0.0` before its first formal tag/release. This numbering correction updates product metadata and documentation without changing the reviewed runtime behavior or independent schema versions; earlier private candidate numbering does not establish a public release.
 - Continue routine updates as 2.0.1, 2.0.2 and so on. This prepared version does not update an installed plugin or establish an automatic upgrade from a higher private version.
 

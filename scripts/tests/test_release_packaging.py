@@ -21,13 +21,67 @@ class ReleasePackagingTests(unittest.TestCase):
         self.addCleanup(self.temp.cleanup)
         self.workspace = Path(self.temp.name)
 
-    def copy_source(self):
-        source = self.workspace / "source"
+    def copy_source(self, name="source"):
+        source = self.workspace / name
         shutil.copytree(
             ROOT, source,
             ignore=shutil.ignore_patterns("__pycache__", "*.pyc", "*.pyo", "dist", ".git"),
         )
         return source
+
+    def test_version_2_display_identity_is_independent_from_machine_semver(self):
+        source = self.copy_source()
+        version = (source / "VERSION").read_text().strip()
+        headings = [
+            BUILDER.first_h1((source / "README.md").read_text()),
+            BUILDER.first_h1((source / "SKILL.md").read_text()),
+            BUILDER.first_h1((source / "references/advanced-reference.md").read_text()),
+            BUILDER.first_h1((source / "packaging/plugin-template/README.md").read_text()),
+        ]
+        self.assertTrue(all(BUILDER.DISPLAY_IDENTITY in heading for heading in headings))
+        self.assertTrue(all(version not in heading for heading in headings))
+        _, _, report = BUILDER.load_sources(source)
+        self.assertEqual(report["version"], version)
+
+    def test_wrong_display_identity_or_release_notes_prevents_release(self):
+        mutations = [
+            ("README.md", BUILDER.DISPLAY_IDENTITY, "AI Development Workflow",
+             r"README display identity mismatch"),
+            ("SKILL.md", BUILDER.DISPLAY_IDENTITY, "AI Development Workflow",
+             r"Main skill display identity mismatch"),
+            ("references/advanced-reference.md", BUILDER.DISPLAY_IDENTITY,
+             "AI Development Workflow", r"Advanced reference display identity mismatch"),
+            ("agents/openai.yaml", BUILDER.DISPLAY_IDENTITY, "AI Development Workflow",
+             r"Main skill interface display identity mismatch"),
+            ("packaging/plugin-template/README.md", BUILDER.DISPLAY_IDENTITY,
+             "AI Development Workflow", r"Plugin README display identity mismatch"),
+            ("packaging/plugin-template/plugin.json", BUILDER.DISPLAY_IDENTITY,
+             "AI Development Workflow", r"Plugin display identity mismatch"),
+            ("packaging/plugin-template/.codex-plugin/plugin.json", BUILDER.DISPLAY_IDENTITY,
+             "AI Development Workflow", r"Plugin display identity mismatch"),
+            ("packaging/plugin-template/plugin.json", "Version 2 introduces",
+             "Version 2.0.0 introduces", r"Plugin Version 2 release notes mismatch"),
+            ("packaging/plugin-template/.codex-plugin/plugin.json", "Version 2 introduces",
+             "Version 2.0.0 introduces", r"Plugin Version 2 release notes mismatch"),
+        ]
+        for index, (name, old, new, message) in enumerate(mutations):
+            with self.subTest(path=name, replacement=new):
+                source = self.copy_source(f"display-{index}")
+                path = source / name
+                content = path.read_text()
+                self.assertIn(old, content)
+                path.write_text(content.replace(old, new, 1))
+                with self.assertRaisesRegex(BUILDER.PackageError, message):
+                    BUILDER.load_sources(source)
+
+    def test_manifest_semver_mismatch_still_prevents_release(self):
+        source = self.copy_source()
+        path = source / "packaging/plugin-template/plugin.json"
+        content = path.read_text()
+        self.assertIn('"version": "2.0.0"', content)
+        path.write_text(content.replace('"version": "2.0.0"', '"version": "2.0.1"', 1))
+        with self.assertRaisesRegex(BUILDER.PackageError, r"Plugin manifest version mismatch"):
+            BUILDER.load_sources(source)
 
     def test_missing_required_command_prevents_release(self):
         source = self.copy_source()
