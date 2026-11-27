@@ -1,13 +1,20 @@
 # Changelog
 
-## 2.0.4
+## 2.0.0 — Version 2
+
+### Release provenance
+
+- Establish `v2.0.0` as the first formal Version 2 tag/release. The next routine patch release is `2.0.1`; a future GitHub release title remains publication metadata rather than a source-version override.
+- Record that public commit `9df3b6b` carried an untagged mistaken/preparatory `2.0.4` source label before the first formal release. It was not a formal `2.0.4` tag/release. Consumers of that labelled source may observe the normalized version as a downgrade, and no automatic installed-plugin downgrade is promised.
+
+### Portable hosts and task-aware discovery
 
 - Present the complete workflow as portable across ChatGPT, Codex, Claude, DeepSeek and compatible skill hosts while keeping host-specific installation, invocation, worker and tool limits explicit.
 - Add a deterministic generated search index and grouped candidate search for recipes, specialists, operations/capabilities and eligible references. Require provisional then source-refined discovery before final task routing.
 - Add versioned discovery receipts with current fingerprint/path checks and focused selected-recipe recommendation dispositions. Preserve readable legacy selections while requiring reconciliation before new execution.
 - Package and freshness-check the generated search index in both distributions. Retrieval remains candidate-only and does not grant authority, dispatch workers or prove intellectual application.
 
-## 2.0.3
+### Canonical workers, contracts and verification
 
 - Consolidate 38 former operational profiles into six canonical worker families, 37 shared capability selectors and meaningful compatibility entries; preserve all 41 commands, 26 operations and 21 domain lenses.
 - Require useful current contributions from at least two distinct actual sub-agents for every new task, including tiny, Plan, read-only, verification and standalone work. Coordinator, profile names, status-only output and duplicate actors do not satisfy the minimum.
@@ -19,28 +26,24 @@
 - Require independent Verifier corroboration and original Reviewer acknowledgement for a clean initial Loop result. Retain sole repair executor, fresh Reviewer after every execution attempt, XR historical schemas and five-minute wait-first monitoring.
 - Update the complete main skill, README, command/operation references, generated catalogue and full plugin/local-skill package closure. Preserve clean publisher identity, legal attribution and patch-only versioning.
 
-## 2.0.2
+### Publisher identity
 
 - Set the packaged publisher identity to AIPieksel and omit personal author contact fields.
 - Synchronize product version labels while preserving all workflow, command, agent, schema and license behavior.
 
-## 2.0.1
-
-### Release preparation
+### Release preparation and support
 
 - Exclude the G0 quick-task record directory from repository staging, alongside existing development-record and build-output exclusions. No private task records are included in the distribution.
 - Add a real GitHub support route and accurate guidance for sensitive security reports. Keep versioning provenance in the dedicated policy and changelog.
 - Preserve workflow behavior, command and role instructions, schema identities, assets and license notices.
 
-## 2.0.0
-
 ### Public version baseline
 
-- Start the rebuilt public repository at 2.0.0 by explicit owner decision. The preceding GitHub snapshot was unversioned; no historical 1.0.0 release is asserted.
-- Renumber the prepared 3.5.3 candidate before its publication to that repository. This numbering change updates product metadata and documentation without changing the reviewed runtime behavior or independent schema versions.
+- Establish `2.0.0` as the first formal Version 2 release by explicit owner decision. Before this normalization, public `main` carried the untagged `2.0.4` source label recorded above; no `v2.0.4` tag, GitHub Release or historical `1.0.0` release is asserted.
+- Normalize the prepared Version 2 candidate to `2.0.0` before its first formal tag/release. This numbering correction updates product metadata and documentation without changing the reviewed runtime behavior or independent schema versions; earlier private candidate numbering does not establish a public release.
 - Continue routine updates as 2.0.1, 2.0.2 and so on. This prepared version does not update an installed plugin or establish an automatic upgrade from a higher private version.
 
-### ChatGPT-first entry and mode contracts
+### Cross-host entry and mode contracts
 
 - Consolidate the public plugin into one canonical `ai-development-workflow` skill with Auto, Plan, Build, Review and Loop. Preserve advanced G/numeric handlers as internal compatibility resources rather than separate public skill registrations.
 - Define Plan as capture/reuse, planning and completed criticism before stopping; Build as reviewed implementation and verification; Review as critically planned inspection and findings without repairs or fabricated implementation evidence.
@@ -66,4 +69,4 @@
 - Preserve existing behavioral tests and add focused routing, selection, admission, migration and packaging regression coverage for the revised boundaries.
 - Document patch-only version advancement. Preserve accurate publisher metadata, existing licenses and upstream notices; exclude private task/history material and inherited owner permissions from the distributable source.
 
-This source revision describes the prepared changes. Repository publication, plugin submission and activation in an installed host remain separate actions and are not established by a local source or package check.
+This single entry describes the complete Version 2 baseline. Repository publication, plugin submission and activation in an installed host remain separate actions and are not established by a local source or package check.

@@ -28,12 +28,12 @@
       },
       "publication": {
         "countries": [],
-        "release_notes": "Version 2.0.4 adds task-aware discovery for recipes, specialists, operations and references, with explainable grouped candidates and auditable selection evidence."
+        "release_notes": "Version 2.0.0 introduces the complete portable Version 2 workflow: five public modes, six canonical worker families, preserved advanced controls, task-aware resource discovery, execution-bound evidence, independent verification and complete local-skill/plugin packaging."
       }
     }
   },
   "name": "ai-development-workflow",
-  "version": "2.0.4",
+  "version": "2.0.0",
   "description": "Plan, build, review and improve software through scoped workflows, automatic UI expertise and verified delivery.",
   "author": {
     "name": "AIPieksel"

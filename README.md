@@ -1,4 +1,4 @@
-# AI Development Workflow v2.0.4
+# AI Development Workflow v2.0.0
 
 **One portable agent-development skill for planning, criticizing, building, reviewing and verifying development work.** The complete skill can be used in ChatGPT, Codex, Claude, DeepSeek, and other compatible hosts that can load its instruction bundle and provide the workers and tools required by the selected task. Describe the task, and the workflow discovers appropriate operations and expertise while preserving the original request, existing work and evidence of completion.
 
@@ -227,8 +227,8 @@ Use the distribution that matches your host. Preserve the complete contents; **c
 
 | Distribution | Archive layout | Use |
 | --- | --- | --- |
-| `ai-development-workflow-v2.0.4-plugin.zip` | Plugin metadata/artwork at the archive root; exactly one canonical skill under `skills/ai-development-workflow/` | Install/import through the plugin interface actually supported by your host. |
-| `ai-development-workflow-v2.0.4-local-skill.zip` | `SKILL.md` and its complete runtime directories directly at the archive root | Extract the complete archive into a folder named `ai-development-workflow` in your local assistant's supported skill location. |
+| `ai-development-workflow-v2.0.0-plugin.zip` | Plugin metadata/artwork at the archive root; exactly one canonical skill under `skills/ai-development-workflow/` | Install/import through the plugin interface actually supported by your host. |
+| `ai-development-workflow-v2.0.0-local-skill.zip` | `SKILL.md` and its complete runtime directories directly at the archive root | Extract the complete archive into a folder named `ai-development-workflow` in your local assistant's supported skill location. |
 | Source checkout | Canonical skill at the repository root, with additional development/build files | Inspect, develop, test and create both exports from one source. |
 
 Both exports include the complete canonical README/CHANGELOG, 41 command handlers, six substantive role families, shared capability bodies, meaningful legacy entries, 21 domain lenses, references, catalogues and helper dependencies. Each archive adds `PACKAGE-CONTENTS.json` listing paths, byte sizes and SHA-256 hashes of its other files. The plugin package also includes its small root entry README. These are complete fresh exports, not update overlays.
@@ -260,7 +260,7 @@ python3 scripts/workflow_catalog.py --format json
 
 See [optional debug logging](references/debug-logging.md) to enable local diagnostics for actual helper, shell and reported host events. Logging is **off by default**; it installs no telemetry service or background watcher.
 
-Routine releases advance only the patch version—this prepared source is `2.0.4`—under the [versioning policy](references/versioning-policy.md), which also records the public version baseline. Major/minor changes require an explicit decision. Preparing, committing, publishing and activating a version are distinct outcomes. See [CHANGELOG.md](CHANGELOG.md) for this source revision.
+Version `2.0.0` is the first formal Version 2 tag/release baseline. The next routine release is `2.0.1` under the [versioning policy](references/versioning-policy.md). A future GitHub release title is publication metadata, not the source version. Preparing, committing, publishing and activating a version remain distinct outcomes. See [CHANGELOG.md](CHANGELOG.md) for the complete Version 2 entry.
 
 ## Capabilities, privacy and rights
 

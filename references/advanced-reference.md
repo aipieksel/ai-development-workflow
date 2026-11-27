@@ -1,6 +1,6 @@
 # Complete advanced reference
 
-Version **2.0.4**. Start with the [main guide](../README.md) and
+Version **2.0.0**. Start with the [main guide](../README.md) and
 [five public modes](public-modes.md). This reference documents the complete retained command,
 operation, recipe and role inventory. It is a lookup resource; Auto loads relevant instructions
 progressively instead of evaluating every row for every task. The authoritative
