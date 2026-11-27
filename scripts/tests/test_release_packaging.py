@@ -29,7 +29,7 @@ class ReleasePackagingTests(unittest.TestCase):
         )
         return source
 
-    def test_version_2_display_identity_is_independent_from_machine_semver(self):
+    def test_plain_display_identity_is_independent_from_machine_semver(self):
         source = self.copy_source()
         version = (source / "VERSION").read_text().strip()
         headings = [
@@ -38,31 +38,35 @@ class ReleasePackagingTests(unittest.TestCase):
             BUILDER.first_h1((source / "references/advanced-reference.md").read_text()),
             BUILDER.first_h1((source / "packaging/plugin-template/README.md").read_text()),
         ]
-        self.assertTrue(all(BUILDER.DISPLAY_IDENTITY in heading for heading in headings))
+        self.assertTrue(all(heading == BUILDER.DISPLAY_HEADING or
+                            heading.startswith(BUILDER.DISPLAY_HEADING + " — ")
+                            for heading in headings))
         self.assertTrue(all(version not in heading for heading in headings))
         _, _, report = BUILDER.load_sources(source)
         self.assertEqual(report["version"], version)
 
     def test_wrong_display_identity_or_release_notes_prevents_release(self):
+        versioned_display = BUILDER.DISPLAY_IDENTITY + " — Version " + "2"
+        versioned_release_notes = "Version " + "2 introduces"
         mutations = [
-            ("README.md", BUILDER.DISPLAY_IDENTITY, "AI Development Workflow",
+            ("README.md", BUILDER.DISPLAY_IDENTITY, versioned_display,
              r"README display identity mismatch"),
-            ("SKILL.md", BUILDER.DISPLAY_IDENTITY, "AI Development Workflow",
+            ("SKILL.md", BUILDER.DISPLAY_IDENTITY, versioned_display,
              r"Main skill display identity mismatch"),
             ("references/advanced-reference.md", BUILDER.DISPLAY_IDENTITY,
-             "AI Development Workflow", r"Advanced reference display identity mismatch"),
-            ("agents/openai.yaml", BUILDER.DISPLAY_IDENTITY, "AI Development Workflow",
+             versioned_display, r"Advanced reference display identity mismatch"),
+            ("agents/openai.yaml", BUILDER.DISPLAY_IDENTITY, versioned_display,
              r"Main skill interface display identity mismatch"),
             ("packaging/plugin-template/README.md", BUILDER.DISPLAY_IDENTITY,
-             "AI Development Workflow", r"Plugin README display identity mismatch"),
+             versioned_display, r"Plugin README display identity mismatch"),
             ("packaging/plugin-template/plugin.json", BUILDER.DISPLAY_IDENTITY,
-             "AI Development Workflow", r"Plugin display identity mismatch"),
+             versioned_display, r"Plugin display identity mismatch"),
             ("packaging/plugin-template/.codex-plugin/plugin.json", BUILDER.DISPLAY_IDENTITY,
-             "AI Development Workflow", r"Plugin display identity mismatch"),
-            ("packaging/plugin-template/plugin.json", "Version 2 introduces",
-             "Version 2.0.0 introduces", r"Plugin Version 2 release notes mismatch"),
-            ("packaging/plugin-template/.codex-plugin/plugin.json", "Version 2 introduces",
-             "Version 2.0.0 introduces", r"Plugin Version 2 release notes mismatch"),
+             versioned_display, r"Plugin display identity mismatch"),
+            ("packaging/plugin-template/plugin.json", "This release introduces",
+             versioned_release_notes, r"Plugin release notes mismatch"),
+            ("packaging/plugin-template/.codex-plugin/plugin.json", "This release introduces",
+             versioned_release_notes, r"Plugin release notes mismatch"),
         ]
         for index, (name, old, new, message) in enumerate(mutations):
             with self.subTest(path=name, replacement=new):

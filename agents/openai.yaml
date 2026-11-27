@@ -1,5 +1,5 @@
 interface:
-  display_name: "AI Development Workflow — Version 2"
+  display_name: "AI Development Workflow"
   short_description: "Scope, plan, criticize, build and verify changes"
   default_prompt: "Use $ai-development-workflow auto to select the relevant workflow, explain scope, phases and actual agent count, criticize the plan, and complete this task."
   icon_small: "assets/icon.svg"

@@ -1,10 +1,12 @@
 # Changelog
 
-## 2.0.0 — Version 2
+## 2.0.0
 
 ### Release provenance
 
-- Establish `v2.0.0` as the first formal Version 2 tag/release. The next routine patch release is `2.0.1`; a future GitHub release title remains publication metadata rather than a source-version override.
+- Present the public release tag as `2.0` while retaining `2.0.0` as the internal source/package SemVer. The next machine patch is `2.0.1`; publication metadata does not override source identity.
+- Record the earlier `v2.0.0` Git tag and same-named GitHub release as a superseded presentation. The owner authorized a verified replacement under tag `2.0`, followed by removal of the old Release and only its tag ref; commit history remains intact and must not be rewritten.
+- Retain internal package version `2.0.0` in the corrective replacement and disclose that previously downloaded `v2.0.0` assets cannot be recalled and may differ from the replacement bytes.
 - Record that public commit `9df3b6b` carried an untagged mistaken/preparatory higher patch source label before the first formal release. It was not a formal tag/release. Consumers of that labelled source may observe the normalized version as a downgrade, and no automatic installed-plugin downgrade is promised.
 
 ### Portable hosts and task-aware discovery
@@ -39,8 +41,8 @@
 
 ### Public version baseline
 
-- Establish `2.0.0` as the first formal Version 2 release by explicit owner decision. Before this normalization, public `main` carried the untagged higher patch source label recorded above; no corresponding tag, GitHub Release or historical `1.0.0` release is asserted.
-- Normalize the prepared Version 2 candidate to `2.0.0` before its first formal tag/release. This numbering correction updates product metadata and documentation without changing the reviewed runtime behavior or independent schema versions; earlier private candidate numbering does not establish a public release.
+- Establish `2.0.0` as the internal machine baseline by explicit owner decision. Before this normalization, public `main` carried the untagged higher patch source label recorded above; no corresponding tag, GitHub Release or historical `1.0.0` release is asserted.
+- Normalize the prepared candidate to `2.0.0` before formal publication. This numbering correction updates machine metadata and documentation without changing the reviewed runtime behavior or independent schema versions; earlier private candidate numbering does not establish a public release.
 - Continue routine updates as 2.0.1, 2.0.2 and so on. This prepared version does not update an installed plugin or establish an automatic upgrade from a higher private version.
 
 ### Cross-host entry and mode contracts
@@ -69,4 +71,4 @@
 - Preserve existing behavioral tests and add focused routing, selection, admission, migration and packaging regression coverage for the revised boundaries.
 - Document patch-only version advancement. Preserve accurate publisher metadata, existing licenses and upstream notices; exclude private task/history material and inherited owner permissions from the distributable source.
 
-This single entry describes the complete Version 2 baseline. Repository publication, plugin submission and activation in an installed host remain separate actions and are not established by a local source or package check.
+This single entry describes the complete `2.0.0` machine baseline. Repository publication, plugin submission and activation in an installed host remain separate actions and are not established by a local source or package check.

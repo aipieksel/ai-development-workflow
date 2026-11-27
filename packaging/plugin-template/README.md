@@ -1,4 +1,4 @@
-# AI Development Workflow — Version 2
+# AI Development Workflow
 
 A complete plugin with one main skill and five public controls: **auto**, **plan**, **build**, **review** and **loop**. Auto selects a concrete Plan, Build, Review or Loop mode. XR remains a compatibility alias for Loop.
 

@@ -3,7 +3,7 @@ name: ai-development-workflow
 description: "Plan, criticize, build and verify development work with explicit scope, phases and useful contributions from at least two actual workers. Use auto, plan, build, review or loop. Apply UI design expertise to layout, styling, assets, motion and visual corrections."
 ---
 
-# AI Development Workflow — Version 2 — choose, preserve, execute, verify
+# AI Development Workflow — choose, preserve, execute, verify
 
 Use one main skill and five public controls: **auto**, **plan**, **build**, **review**, **loop**.
 Apply the [mandatory workflow contract](references/workflow-contract.md) and

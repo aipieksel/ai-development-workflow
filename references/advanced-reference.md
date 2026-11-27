@@ -1,4 +1,4 @@
-# AI Development Workflow — Version 2
+# AI Development Workflow
 
 Complete advanced reference. Start with the [main guide](../README.md) and
 [five public modes](public-modes.md). This reference documents the complete retained command,

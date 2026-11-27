@@ -11,7 +11,7 @@
       "loop Compare the reference with my implementation and resolve the differences:"
     ],
     "developerName": "AIPieksel",
-    "displayName": "AI Development Workflow — Version 2",
+    "displayName": "AI Development Workflow",
     "logo": "./assets/logo.png",
     "longDescription": "AI Development Workflow coordinates software changes through captured scope, planning, independent criticism, implementation and verification. Auto selects a concrete Plan, Build, Review or Loop mode and requires real specialist agents. Known localized builds use the Fast Engineer; cross-page, cross-feature and shared-contract changes require Architect advice before final planning. UI expertise applies to relevant assignments. The workflow explains its routing, phases, owners and actual agent count. Existing commands remain available as advanced controls. Hosts must provide actual worker dispatch; unavailable capabilities are reported as blockers. Loop retains separate review and execution agents with wait-first monitoring.",
     "privacyPolicyURL": "https://aipieksel.com/ai-development-workflow/privacy/",
@@ -28,7 +28,7 @@
       },
       "publication": {
         "countries": [],
-        "release_notes": "Version 2 introduces the complete portable workflow: five public modes, six canonical worker families, preserved advanced controls, task-aware resource discovery, execution-bound evidence, independent verification and complete local-skill/plugin packaging."
+        "release_notes": "This release introduces the complete portable workflow: five public modes, six canonical worker families, preserved advanced controls, task-aware resource discovery, execution-bound evidence, independent verification and complete local-skill/plugin packaging."
       }
     }
   },

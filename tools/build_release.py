@@ -31,10 +31,11 @@ FORBIDDEN_ROOTS = {"agents-pro-v2", "integrations", "documents", "tasks", "node_
 FORBIDDEN_FILES = {"agents-pro.queue.json", "agents-pro.skill.json", "agents-pro.skill.v2.json",
                    "scripts/workflow_picker.py", "references/portable-picker.md", "specialists/vscode-agents-pro.md"}
 BT = chr(96)
-DISPLAY_IDENTITY = "AI Development Workflow — Version 2"
+DISPLAY_IDENTITY = "AI Development Workflow"
 DISPLAY_HEADING = f"# {DISPLAY_IDENTITY}"
+SKILL_HEADING = f"{DISPLAY_HEADING} — choose, preserve, execute, verify"
 DISPLAY_RELEASE_NOTES = (
-    "Version 2 introduces the complete portable workflow: five public modes, six canonical "
+    "This release introduces the complete portable workflow: five public modes, six canonical "
     "worker families, preserved advanced controls, task-aware resource discovery, "
     "execution-bound evidence, independent verification and complete local-skill/plugin packaging."
 )
@@ -192,9 +193,7 @@ def load_sources(root: Path) -> tuple[dict[str, bytes], dict[str, bytes], dict]:
     require(first_h1(runtime["README.md"].decode()) == DISPLAY_HEADING,
             "README display identity mismatch")
     skill_heading = first_h1(runtime["SKILL.md"].decode())
-    require(skill_heading == DISPLAY_HEADING or (
-        isinstance(skill_heading, str) and skill_heading.startswith(DISPLAY_HEADING + " — ")
-    ), "Main skill display identity mismatch")
+    require(skill_heading == SKILL_HEADING, "Main skill display identity mismatch")
     require(first_h1(runtime["references/advanced-reference.md"].decode()) == DISPLAY_HEADING,
             "Advanced reference display identity mismatch")
     metadata = runtime.get("agents/openai.yaml", b"").decode("utf-8")
@@ -299,7 +298,7 @@ def load_sources(root: Path) -> tuple[dict[str, bytes], dict[str, bytes], dict]:
         publication = manifest.get("publication") or manifest.get("extensions", {}).get(
             "com.openai", {}).get("publication", {})
         require(publication.get("release_notes") == DISPLAY_RELEASE_NOTES,
-                "Plugin Version 2 release notes mismatch")
+                "Plugin release notes mismatch")
         require(isinstance(interface.get("shortDescription"), str)
                 and 0 < len(interface["shortDescription"]) <= 30,
                 "Plugin short description must contain 1 to 30 characters")
