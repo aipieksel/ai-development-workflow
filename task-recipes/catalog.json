@@ -1,0 +1,359 @@
+{
+  "schemaVersion": 1,
+  "recipes": [
+    {
+      "id": "reference-rebuild",
+      "label": "Rebuild from a supplied reference",
+      "summary": "Reconstruct supplied HTML, screenshots or extracted pages while preserving declared source details and validating the rendered result.",
+      "instructions": "task-recipes/reference-rebuild.md",
+      "expansion": [
+        "stage:assess-codebase",
+        "stage:design-ui",
+        "stage:review-ui-spec",
+        "stage:plan-code",
+        "stage:review-plan",
+        "stage:execute-plan",
+        "stage:run-e2e",
+        "stage:review-ui",
+        "stage:review-accessibility",
+        "stage:verify-goal"
+      ],
+      "recommendedSpecialists": [
+        "specialist:ui-design",
+        "specialist:reference-fidelity",
+        "specialist:browser-extraction",
+        "specialist:artifact-delivery"
+      ],
+      "writeScope": "repo-write-scoped",
+      "useWhen": [
+        "A supplied page, extraction or screenshot defines the requested visual and interaction target."
+      ],
+      "avoidWhen": [
+        "The user asks for open-ended concept exploration without an existing target."
+      ],
+      "requiredBindings": {
+        "stage:plan-code": [
+          "assessment.report",
+          "ui.spec",
+          "ui.spec.review"
+        ]
+      }
+    },
+    {
+      "id": "visual-correction",
+      "label": "Repair precise visual feedback",
+      "summary": "Apply itemized corrections to the current approved artifact and verify the requested delta together with protected properties.",
+      "instructions": "task-recipes/visual-correction.md",
+      "expansion": [
+        "stage:assess-codebase",
+        "stage:diagnose-failure",
+        "stage:design-ui",
+        "stage:plan-code",
+        "stage:review-plan",
+        "stage:execute-plan",
+        "stage:review-ui",
+        "stage:verify-goal"
+      ],
+      "recommendedSpecialists": [
+        "specialist:ui-design",
+        "specialist:reference-fidelity",
+        "specialist:design-system"
+      ],
+      "writeScope": "repo-write-scoped",
+      "useWhen": [
+        "The user identifies incorrect geometry, typography, content, component states or unintended changes to approved work."
+      ],
+      "avoidWhen": [
+        "There is no visual artifact or reference; use the actual domain diagnosis instead."
+      ],
+      "requiredBindings": {
+        "stage:plan-code": [
+          "assessment.report",
+          "diagnosis.report",
+          "ui.spec"
+        ]
+      }
+    },
+    {
+      "id": "design-system-rollout",
+      "label": "Roll out shared design changes",
+      "summary": "Update canonical components, typography and theme presets across a declared target set, checking affected states and exported outputs.",
+      "instructions": "task-recipes/design-system-rollout.md",
+      "expansion": [
+        "stage:assess-codebase",
+        "stage:design-ui",
+        "stage:review-ui-spec",
+        "stage:plan-code",
+        "stage:review-plan",
+        "stage:execute-plan",
+        "stage:run-tests",
+        "stage:run-e2e",
+        "stage:review-ui",
+        "stage:review-accessibility",
+        "stage:verify-goal"
+      ],
+      "recommendedSpecialists": [
+        "specialist:ui-design",
+        "specialist:design-system",
+        "specialist:reference-fidelity",
+        "specialist:artifact-delivery"
+      ],
+      "writeScope": "repo-write-scoped",
+      "useWhen": [
+        "Changes to shared components, fonts, modes, accents or presets must propagate across pages or an editor catalogue."
+      ],
+      "avoidWhen": [
+        "Only one self-contained image is being edited and no shared design system is involved."
+      ],
+      "requiredBindings": {
+        "stage:plan-code": [
+          "assessment.report",
+          "ui.spec",
+          "ui.spec.review"
+        ]
+      }
+    },
+    {
+      "id": "native-yaml-conversion",
+      "label": "Convert to native editable YAML",
+      "summary": "Map supplied sources to the receiving kit and real widget capabilities, then validate editable structure, assets and import/render parity.",
+      "instructions": "task-recipes/native-yaml-conversion.md",
+      "expansion": [
+        "stage:assess-codebase",
+        "stage:design-ui",
+        "stage:plan-code",
+        "stage:review-plan",
+        "stage:execute-plan",
+        "stage:run-tests",
+        "stage:review-ui",
+        "stage:verify-goal"
+      ],
+      "recommendedSpecialists": [
+        "specialist:ui-design",
+        "specialist:native-yaml-archives",
+        "specialist:editor-schema",
+        "specialist:reference-fidelity",
+        "specialist:artifact-delivery"
+      ],
+      "writeScope": "repo-write-scoped",
+      "useWhen": [
+        "The requested deliverable is a native editor YAML page, template or preset based on supplied content and a schema/kit."
+      ],
+      "avoidWhen": [
+        "The user wants an ordinary HTML page or screenshot without native editor compatibility."
+      ],
+      "requiredBindings": {
+        "stage:plan-code": [
+          "assessment.report",
+          "ui.spec"
+        ]
+      }
+    },
+    {
+      "id": "asset-production",
+      "label": "Produce or edit a visual asset set",
+      "summary": "Create source-aware images, SVGs or banner variants with explicit composition constraints, distinct concepts where requested and complete output reconciliation.",
+      "instructions": "task-recipes/asset-production.md",
+      "expansion": [
+        "stage:assess-codebase",
+        "stage:design-ui",
+        "stage:plan-code",
+        "stage:review-plan",
+        "stage:execute-plan",
+        "stage:review-ui",
+        "stage:verify-goal"
+      ],
+      "recommendedSpecialists": [
+        "specialist:ui-design",
+        "specialist:image-art-direction",
+        "specialist:reference-fidelity",
+        "specialist:artifact-delivery"
+      ],
+      "writeScope": "repo-write-scoped",
+      "useWhen": [
+        "The task produces or edits images, product compositions, SVG conversions or a constrained set of banner concepts."
+      ],
+      "avoidWhen": [
+        "The actual problem is application lifecycle or UI state rather than the visual assets themselves."
+      ],
+      "requiredBindings": {
+        "stage:plan-code": [
+          "assessment.report",
+          "ui.spec"
+        ]
+      }
+    },
+    {
+      "id": "motion-reconstruction",
+      "label": "Reconstruct and verify motion",
+      "summary": "Preserve or repair supplied animation and interactive behavior using an explicit sequence and observed full-cycle verification.",
+      "instructions": "task-recipes/motion-reconstruction.md",
+      "expansion": [
+        "stage:assess-codebase",
+        "stage:extract-behaviour-spec",
+        "stage:design-ui",
+        "stage:plan-code",
+        "stage:review-plan",
+        "stage:execute-plan",
+        "stage:run-e2e",
+        "stage:review-ui",
+        "stage:review-accessibility",
+        "stage:verify-goal"
+      ],
+      "recommendedSpecialists": [
+        "specialist:ui-design",
+        "specialist:motion-interaction",
+        "specialist:reference-fidelity",
+        "specialist:browser-extraction"
+      ],
+      "writeScope": "repo-write-scoped",
+      "useWhen": [
+        "Animation, tabs, maps, terminals, timing, transitions or interactive controls are part of the requested target."
+      ],
+      "avoidWhen": [
+        "Only a static still image is requested and no motion behavior is involved."
+      ],
+      "requiredBindings": {
+        "stage:plan-code": [
+          "assessment.report",
+          "behaviour.spec",
+          "ui.spec"
+        ]
+      }
+    },
+    {
+      "id": "media-library-extension",
+      "label": "Extend an existing media workspace",
+      "summary": "Integrate media conversion or navigation into the current library, reusing folder identity, tree controls, drop behavior and persisted state.",
+      "instructions": "task-recipes/media-library-extension.md",
+      "expansion": [
+        "stage:assess-codebase",
+        "stage:extract-behaviour-spec",
+        "stage:plan-code",
+        "stage:review-plan",
+        "stage:execute-plan",
+        "stage:run-tests",
+        "stage:run-e2e",
+        "stage:review-code",
+        "stage:verify-goal"
+      ],
+      "recommendedSpecialists": [
+        "specialist:media-library",
+        "specialist:editor-schema",
+        "specialist:migration-release"
+      ],
+      "writeScope": "repo-write-scoped",
+      "useWhen": [
+        "An existing media, HTML or icon library gains import, conversion, sorting, favorites, canvas or folder functionality."
+      ],
+      "avoidWhen": [
+        "The task is a standalone image edit with no persistent application integration."
+      ],
+      "requiredBindings": {
+        "stage:plan-code": [
+          "assessment.report",
+          "behaviour.spec"
+        ]
+      }
+    },
+    {
+      "id": "content-site-delivery",
+      "label": "Deliver a source-grounded content site",
+      "summary": "Reconcile requested pages and source content, reuse the approved presentation and verify routes, metadata, links and delivered artifacts.",
+      "instructions": "task-recipes/content-site-delivery.md",
+      "expansion": [
+        "stage:assess-codebase",
+        "stage:plan-code",
+        "stage:review-plan",
+        "stage:execute-plan",
+        "stage:run-tests",
+        "stage:run-e2e",
+        "stage:verify-goal"
+      ],
+      "recommendedSpecialists": [
+        "specialist:content-seo",
+        "specialist:design-system",
+        "specialist:artifact-delivery"
+      ],
+      "writeScope": "repo-write-scoped",
+      "useWhen": [
+        "A help centre, product/page collection, Markdown site or content migration must preserve source facts and complete target coverage."
+      ],
+      "avoidWhen": [
+        "The request is strategy or information architecture advice only; retain the corresponding read-only scope."
+      ],
+      "requiredBindings": {
+        "stage:plan-code": [
+          "assessment.report"
+        ]
+      }
+    },
+    {
+      "id": "artifact-handoff",
+      "label": "Verify and deliver an artifact",
+      "summary": "Reconcile final source and package identity, repair in-scope delivery defects and verify the authorized destination with readback.",
+      "instructions": "task-recipes/artifact-handoff.md",
+      "expansion": [
+        "stage:assess-codebase",
+        "stage:plan-code",
+        "stage:review-plan",
+        "stage:execute-plan",
+        "stage:run-tests",
+        "stage:verify-goal"
+      ],
+      "recommendedSpecialists": [
+        "specialist:artifact-delivery",
+        "specialist:migration-release"
+      ],
+      "writeScope": "repo-write-scoped",
+      "useWhen": [
+        "A requested file, archive, export or release is missing, stale, incomplete, unstyled or not available at its authorized destination."
+      ],
+      "avoidWhen": [
+        "No artifact or delivery outcome is requested; do not invent publication or storage work."
+      ],
+      "requiredBindings": {
+        "stage:plan-code": [
+          "assessment.report"
+        ]
+      }
+    },
+    {
+      "id": "plugin-evolution",
+      "label": "Improve a plugin from actual usage",
+      "summary": "Analyze available usage evidence, map current coverage, implement justified instruction or routing changes and verify the same plugin release.",
+      "instructions": "task-recipes/plugin-evolution.md",
+      "expansion": [
+        "stage:research-technical",
+        "stage:assess-codebase",
+        "stage:extract-behaviour-spec",
+        "stage:plan-code",
+        "stage:review-plan",
+        "stage:execute-plan",
+        "stage:run-tests",
+        "stage:review-code",
+        "stage:update-docs",
+        "stage:verify-goal"
+      ],
+      "recommendedSpecialists": [
+        "specialist:usage-learning",
+        "specialist:plugins-mcp",
+        "specialist:artifact-delivery"
+      ],
+      "writeScope": "repo-write-scoped",
+      "useWhen": [
+        "The user asks to improve a plugin, skill catalogue or agent workflow using usage histories, concrete failures or exported requests."
+      ],
+      "avoidWhen": [
+        "The user invokes an existing plugin to perform unrelated work, or asks only for a usage analysis without implementation."
+      ],
+      "requiredBindings": {
+        "stage:plan-code": [
+          "assessment.report",
+          "research.report",
+          "behaviour.spec"
+        ]
+      }
+    }
+  ]
+}

@@ -9,6 +9,8 @@ import re
 import sys
 from datetime import datetime
 from pathlib import Path
+from workflow_log import traced
+from workflow_contract import pending_contract
 
 
 ROOT = Path("documents/tasks/development")
@@ -32,7 +34,13 @@ def next_number(root: Path, date: str) -> int:
     return max(numbers, default=0) + 1
 
 
-def create_record(project_root: Path, title: str) -> dict[str, object]:
+@traced("record.create")
+def create_record(project_root: Path, title: str, preset: str = "G1") -> dict[str, object]:
+    from route_workflow import preset_options
+    preset_options(preset)
+    preset = preset.upper()
+    if preset == "GCA":
+        raise ValueError("GCA requires an existing development record; it does not allocate one")
     if not project_root.is_dir():
         raise ValueError(f"project root is not a directory: {project_root}")
     clean_title = title.strip()
@@ -64,6 +72,7 @@ def create_record(project_root: Path, title: str) -> dict[str, object]:
     metadata = {
         "schema": "project-development-plan/v1",
         "contractVersion": 2,
+        "workflowPreset": preset,
         "title": clean_title,
         "projectRoot": str(project_root),
         "recordPath": str(record.relative_to(project_root)),
@@ -81,6 +90,7 @@ def create_record(project_root: Path, title: str) -> dict[str, object]:
         "steps": [],
         "checks": [],
         "planHashes": {},
+        "workflowContract": pending_contract(preset),
         "createdAt": now.isoformat(),
         "updatedAt": now.isoformat(),
         "files": ["checklist.md", "fix-plan.md", "test-plan.md", "critique.md", "results.md"],
@@ -93,9 +103,12 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--project-root", required=True)
     parser.add_argument("--title", required=True)
+    from route_workflow import ROUTES
+    parser.add_argument("--preset", choices=[code for code, spec in ROUTES.items()
+                        if spec["recordKind"] == "development" and spec["createsRecord"]], default="G1")
     args = parser.parse_args()
     try:
-        payload = create_record(Path(args.project_root).expanduser().resolve(), args.title)
+        payload = create_record(Path(args.project_root).expanduser().resolve(), args.title, args.preset)
     except (OSError, ValueError) as exc:
         print(str(exc), file=sys.stderr)
         return 2

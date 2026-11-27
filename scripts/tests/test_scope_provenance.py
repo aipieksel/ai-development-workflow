@@ -6,18 +6,19 @@ import unittest
 
 import test_contract
 from test_contract import SCRIPTS, write
+from contract_fixture import declare_review
 from plan_record import definition_hash, gate, request_hashes
 
 
 class ScopeProvenanceTests(unittest.TestCase):
     setUp = test_contract.ContractTests.setUp
 
-    def finalize(self):
+    def finalize(self, stage="planned"):
         write(self.record, self.data)
         before = (self.record / "record.json").read_bytes()
         result = subprocess.run(
             [sys.executable, str(SCRIPTS / "finalize_plan_record.py"),
-             "--project-root", str(self.root), "--record", str(self.record), "--stage", "planned"],
+             "--project-root", str(self.root), "--record", str(self.record), "--stage", stage],
             capture_output=True, text=True,
         )
         return result, before
@@ -53,15 +54,16 @@ class ScopeProvenanceTests(unittest.TestCase):
         self.data["requirements"][0].update(
             kind="necessary", justification="The dispatch fixture uses requester identity to isolate private results."
         )
-        self.data["definitionHash"] = definition_hash(self.data)
+        self.data["planRevision"] += 1
+        declare_review(self.record, self.data, outcome="revised")
         self.assertTrue(gate(self.record, self.data, self.root))
 
     def test_policy_can_authorize_necessary_not_requested_detail(self):
         self.data["requestSources"].append({"id": "P1", "role": "policy", "origin": "AGENTS.md", "text": "Preserve identity"})
         self.data["requirements"][0]["sources"] = ["P1"]
-        self.data["requestHashes"] = request_hashes(self.data)
         self.data["requirements"][0].update(kind="necessary", justification="Mandatory isolation policy.")
-        self.data["definitionHash"] = definition_hash(self.data)
+        self.data["planRevision"] += 1
+        declare_review(self.record, self.data, outcome="revised")
         self.assertTrue(gate(self.record, self.data, self.root))
 
     def test_policy_alone_cannot_replace_actual_request(self):
@@ -93,10 +95,11 @@ class ScopeProvenanceTests(unittest.TestCase):
         self.data["requestSources"].append({"id": "S2", "role": "user", "origin": "Follow-up",
                                             "text": "Keep display names unchanged too."})
         self.data["requirements"][0]["sources"].append("S2")
-        self.data["planRevision"] += 1
         with self.assertRaisesRegex(ValueError, "sources changed"):
             gate(self.record, self.data, self.root)
-        result, _ = self.finalize()
+        self.data["planRevision"] += 1
+        declare_review(self.record, self.data, outcome="revised", finalized=False)
+        result, _ = self.finalize(stage="criticized")
         self.assertEqual(result.returncode, 0, result.stdout)
         updated = json.loads((self.record / "record.json").read_text())
         self.assertEqual(updated["requestHashes"]["S1"], original["S1"])

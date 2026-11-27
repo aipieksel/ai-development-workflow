@@ -1,0 +1,63 @@
+{
+  "review": {
+    "schema": "ai-development-workflow/xr-review/v1",
+    "runId": "fixture:legacy-loop",
+    "sourceRevision": "source:r1",
+    "round": 1,
+    "reviewerId": "fixture:reviewer-before",
+    "outputRevision": "output:r1",
+    "verdict": "changes-required",
+    "coverage": [
+      {"id": "source", "side": "source", "status": "reviewed", "evidence": ["fixture:source"]},
+      {"id": "result", "side": "result", "status": "reviewed", "evidence": ["fixture:result"]},
+      {"id": "comparison", "side": "comparison", "status": "reviewed", "evidence": ["fixture:comparison"]}
+    ],
+    "findings": [
+      {
+        "id": "F1",
+        "disposition": "actionable",
+        "summary": "Restore the missing navigation action.",
+        "acceptance": "The navigation action opens the existing destination.",
+        "evidence": ["fixture:comparison"]
+      }
+    ]
+  },
+  "checklist": {
+    "schema": "ai-development-workflow/xr-checklist/v1",
+    "runId": "fixture:legacy-loop",
+    "sourceRevision": "source:r1",
+    "round": 1,
+    "outputRevision": "output:r1",
+    "managerId": "fixture:manager",
+    "planRevision": 1,
+    "reviewHash": "11f92929937f502ffe4b0ddc9e1cce71148080ad71fa799b102db90241877c63",
+    "items": [
+      {
+        "id": "C1",
+        "findingIds": ["F1"],
+        "task": "Restore the existing navigation action.",
+        "acceptance": "The navigation action opens the existing destination."
+      }
+    ]
+  },
+  "execution": {
+    "schema": "ai-development-workflow/xr-execution/v1",
+    "runId": "fixture:legacy-loop",
+    "sourceRevision": "source:r1",
+    "round": 1,
+    "planRevision": 1,
+    "inputRevision": "output:r1",
+    "outputRevision": "output:r2",
+    "executorId": "fixture:executor",
+    "checklistHash": "c70f4bee1e5722216339af5d56dc761d05c718a5042dc7f3d4630956d834a7d6",
+    "outcome": "complete",
+    "items": [
+      {
+        "id": "C1",
+        "status": "implemented",
+        "note": "Synthetic completion declaration; no product execution.",
+        "evidence": ["fixture:execution-result"]
+      }
+    ]
+  }
+}

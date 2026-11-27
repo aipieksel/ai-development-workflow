@@ -1,0 +1,655 @@
+{
+  "catalogContract": "ai-development-workflow/operations-v1",
+  "schemaVersion": 1,
+  "categories": [
+    {
+      "id": "Discover",
+      "label": "1. Discover"
+    },
+    {
+      "id": "Plan",
+      "label": "2. Plan & Design"
+    },
+    {
+      "id": "Execute",
+      "label": "3. Execute"
+    },
+    {
+      "id": "Verify",
+      "label": "4. Verify"
+    },
+    {
+      "id": "Document",
+      "label": "5. Document"
+    }
+  ],
+  "agents": [
+    {
+      "id": "investigator",
+      "path": "agents/investigator/agent.md"
+    },
+    {
+      "id": "architect",
+      "path": "agents/architect/agent.md"
+    },
+    {
+      "id": "builder",
+      "path": "agents/builder/agent.md"
+    },
+    {
+      "id": "ui-design-director",
+      "path": "agents/ui-design-director/agent.md"
+    },
+    {
+      "id": "reviewer",
+      "path": "agents/reviewer/agent.md"
+    },
+    {
+      "id": "verification-engineer",
+      "path": "agents/verification-engineer/agent.md"
+    }
+  ],
+  "stages": [
+    {
+      "id": "research-technical",
+      "category": "Discover",
+      "label": "Research Technical Options",
+      "agentId": "investigator",
+      "consumes": [
+        "request"
+      ],
+      "produces": [
+        "research.report"
+      ],
+      "writeScope": "record-only",
+      "description": "Compare libraries or technical approaches with verified sources; never implement.",
+      "agentPath": "agents/investigator/agent.md",
+      "instructions": "workflows/stages/research-technical.md",
+      "outputFile": "RESEARCH.md",
+      "requiresPlanApproval": false,
+      "summary": "Compare libraries or technical approaches with verified sources; never implement.",
+      "capabilities": [
+        "research-technical"
+      ]
+    },
+    {
+      "id": "discover-contributions",
+      "category": "Discover",
+      "label": "Repository Contribution Scout",
+      "agentId": "investigator",
+      "consumes": [
+        "request",
+        "repo.snapshot"
+      ],
+      "produces": [
+        "contribution.portfolio"
+      ],
+      "writeScope": "record-only",
+      "description": "Audit the entire tracked repository, maintainer priorities, and suggest ranked PR-sized contribution plans; never implement.",
+      "agentPath": "agents/investigator/agent.md",
+      "instructions": "workflows/stages/discover-contributions.md",
+      "outputFile": "CONTRIBUTIONS.md",
+      "requiresPlanApproval": false,
+      "summary": "Repository-wide contribution discovery, source-grounded roadmap and PR plans (read-only).",
+      "capabilities": [
+        "discover-contributions"
+      ]
+    },
+    {
+      "id": "assess-codebase",
+      "category": "Discover",
+      "label": "Assess Codebase",
+      "agentId": "investigator",
+      "consumes": [
+        "request",
+        "repo.snapshot"
+      ],
+      "produces": [
+        "assessment.report"
+      ],
+      "writeScope": "record-only",
+      "description": "Trace relevant entry points, ownership, conventions and tests; record sources and unknowns. No application edits.",
+      "agentPath": "agents/investigator/agent.md",
+      "instructions": "workflows/stages/assess-codebase.md",
+      "outputFile": "ASSESSMENT.md",
+      "requiresPlanApproval": false,
+      "summary": "Trace relevant entry points, ownership, conventions and tests; record sources and unknowns. No application edits.",
+      "capabilities": [
+        "assess-codebase"
+      ]
+    },
+    {
+      "id": "diagnose-failure",
+      "category": "Discover",
+      "label": "Diagnose Root Cause",
+      "agentId": "investigator",
+      "consumes": [
+        "request",
+        "repo.snapshot"
+      ],
+      "produces": [
+        "diagnosis.report"
+      ],
+      "writeScope": "record-only",
+      "description": "Reproduce and trace a bug or failure before any fix. Writes hypotheses, evidence, and confirmed cause.",
+      "agentPath": "agents/investigator/agent.md",
+      "instructions": "workflows/stages/diagnose-failure.md",
+      "outputFile": "DIAGNOSIS.md",
+      "requiresPlanApproval": false,
+      "summary": "Reproduce and trace a bug or failure before any fix. Writes hypotheses, evidence, and confirmed cause.",
+      "capabilities": [
+        "diagnose-failure"
+      ]
+    },
+    {
+      "id": "extract-behaviour-spec",
+      "category": "Discover",
+      "label": "Extract Existing Behaviour",
+      "agentId": "investigator",
+      "consumes": [
+        "repo.snapshot"
+      ],
+      "produces": [
+        "behaviour.spec"
+      ],
+      "writeScope": "record-only",
+      "description": "Extract observed behaviour and invariants from code, without guessing or changing application source.",
+      "agentPath": "agents/investigator/agent.md",
+      "instructions": "workflows/stages/extract-behaviour-spec.md",
+      "outputFile": "BEHAVIOUR-SPEC.md",
+      "requiresPlanApproval": false,
+      "summary": "Extract observed behaviour and invariants from code, without guessing or changing application source.",
+      "capabilities": [
+        "extract-behaviour-spec"
+      ]
+    },
+    {
+      "id": "plan-goals",
+      "category": "Plan",
+      "label": "Plan Goals",
+      "agentId": "architect",
+      "consumes": [
+        "request",
+        "repo.snapshot"
+      ],
+      "produces": [
+        "goal.plan"
+      ],
+      "writeScope": "record-only",
+      "description": "Decompose authorised outcomes into dependencies, constraints and acceptance criteria; no implementation.",
+      "agentPath": "agents/architect/agent.md",
+      "instructions": "workflows/stages/plan-goals.md",
+      "outputFile": "GOALS.md",
+      "requiresPlanApproval": false,
+      "summary": "Decompose authorised outcomes into dependencies, constraints and acceptance criteria; no implementation.",
+      "capabilities": [
+        "plan-goals"
+      ]
+    },
+    {
+      "id": "design-architecture",
+      "category": "Plan",
+      "label": "Consult Architecture",
+      "agentId": "architect",
+      "consumes": [
+        "request",
+        "repo.snapshot"
+      ],
+      "produces": [
+        "architecture.advice"
+      ],
+      "writeScope": "record-only",
+      "description": "Write an ADR and implementation boundaries; no source edits.",
+      "agentPath": "agents/architect/agent.md",
+      "instructions": "workflows/stages/design-architecture.md",
+      "outputFile": "ARCHITECTURE.md",
+      "requiresPlanApproval": false,
+      "summary": "Write an ADR and implementation boundaries; no source edits.",
+      "capabilities": [
+        "design-architecture"
+      ]
+    },
+    {
+      "id": "design-ui",
+      "category": "Plan",
+      "label": "Design UI",
+      "agentId": "ui-design-director",
+      "consumes": [
+        "request",
+        "repo.snapshot"
+      ],
+      "produces": [
+        "ui.spec"
+      ],
+      "writeScope": "record-only",
+      "description": "Read real design tokens and components; produce a UI specification and interaction states only.",
+      "agentPath": "agents/ui-design-director/agent.md",
+      "instructions": "workflows/stages/design-ui.md",
+      "outputFile": "UI-SPEC.md",
+      "requiresPlanApproval": false,
+      "summary": "Read real design tokens and components; produce a UI specification and interaction states only.",
+      "capabilities": [
+        "design-ui",
+        "ui-design"
+      ]
+    },
+    {
+      "id": "review-ui-spec",
+      "category": "Plan",
+      "label": "Review UI Specification",
+      "agentId": "reviewer",
+      "consumes": [
+        "ui.spec",
+        "repo.snapshot"
+      ],
+      "produces": [
+        "ui.spec.review"
+      ],
+      "writeScope": "record-only",
+      "description": "Check design contract for implementability, consistency, responsive behaviour and ownership; independent review.",
+      "agentPath": "agents/reviewer/agent.md",
+      "instructions": "workflows/stages/review-ui-spec.md",
+      "outputFile": "UI-SPEC-REVIEW.md",
+      "requiresPlanApproval": false,
+      "summary": "Check design contract for implementability, consistency, responsive behaviour and ownership; independent review.",
+      "capabilities": [
+        "review-ui-spec",
+        "ui-design"
+      ]
+    },
+    {
+      "id": "plan-code",
+      "category": "Plan",
+      "label": "Plan Code Changes",
+      "agentId": "architect",
+      "consumes": [
+        "request",
+        "repo.snapshot"
+      ],
+      "produces": [
+        "code.plan"
+      ],
+      "writeScope": "record-only",
+      "description": "Create file- and test-specific implementation steps, in the same record; does not execute.",
+      "agentPath": "agents/architect/agent.md",
+      "instructions": "workflows/stages/plan-code.md",
+      "outputFile": "PLAN.md",
+      "requiresPlanApproval": false,
+      "summary": "Create file- and test-specific implementation steps, in the same record; does not execute.",
+      "capabilities": [
+        "plan-code"
+      ]
+    },
+    {
+      "id": "plan-tests",
+      "category": "Plan",
+      "label": "Plan Tests Only",
+      "agentId": "architect",
+      "consumes": [
+        "request",
+        "repo.snapshot"
+      ],
+      "produces": [
+        "test.strategy"
+      ],
+      "writeScope": "record-only",
+      "description": "Define assertions, fixtures and required RED/GREEN checks without writing or running tests.",
+      "agentPath": "agents/architect/agent.md",
+      "instructions": "workflows/stages/plan-tests.md",
+      "outputFile": "TEST-PLAN.md",
+      "requiresPlanApproval": false,
+      "summary": "Define assertions, fixtures and required RED/GREEN checks without writing or running tests.",
+      "capabilities": [
+        "plan-tests"
+      ]
+    },
+    {
+      "id": "review-plan",
+      "category": "Plan",
+      "label": "Review Plan",
+      "agentId": "reviewer",
+      "consumes": [
+        "code.plan",
+        "request",
+        "repo.snapshot"
+      ],
+      "produces": [
+        "plan.review"
+      ],
+      "writeScope": "record-only",
+      "description": "Review requirement coverage, execution feasibility and plan revision. Does not implement.",
+      "agentPath": "agents/reviewer/agent.md",
+      "instructions": "workflows/stages/review-plan.md",
+      "outputFile": "PLAN-REVIEW.md",
+      "requiresPlanApproval": false,
+      "summary": "Review requirement coverage, execution feasibility and plan revision. Does not implement.",
+      "capabilities": [
+        "review-plan"
+      ]
+    },
+    {
+      "id": "write-red-tests",
+      "category": "Execute",
+      "label": "Write Failing Tests",
+      "agentId": "builder",
+      "consumes": [
+        "code.plan",
+        "plan.review",
+        "repo.snapshot"
+      ],
+      "produces": [
+        "tdd.red.evidence"
+      ],
+      "writeScope": "tests-only",
+      "description": "Write tests, capture expected RED assertion, and refuse to treat infrastructure errors as RED.",
+      "agentPath": "agents/builder/agent.md",
+      "instructions": "workflows/stages/write-red-tests.md",
+      "outputFile": "TDD-RED.md",
+      "requiresPlanApproval": true,
+      "summary": "Write tests, capture expected RED assertion, and refuse to treat infrastructure errors as RED.",
+      "capabilities": [
+        "write-red-tests"
+      ]
+    },
+    {
+      "id": "execute-plan",
+      "category": "Execute",
+      "label": "Execute Approved Plan",
+      "agentId": "builder",
+      "consumes": [
+        "code.plan",
+        "plan.review",
+        "repo.snapshot"
+      ],
+      "produces": [
+        "execution.result"
+      ],
+      "writeScope": "repo-write-scoped",
+      "description": "Apply approved plan against current reviewed revision. Preserve scope, checkpoints and evidence.",
+      "agentPath": "agents/builder/agent.md",
+      "instructions": "workflows/stages/execute-plan.md",
+      "outputFile": "EXECUTION.md",
+      "requiresPlanApproval": true,
+      "summary": "Apply approved plan against current reviewed revision. Preserve scope, checkpoints and evidence.",
+      "capabilities": [
+        "execute-plan"
+      ]
+    },
+    {
+      "id": "fix-reviewed-defects",
+      "category": "Execute",
+      "label": "Fix Reviewed Defects",
+      "agentId": "builder",
+      "consumes": [
+        "code.plan",
+        "plan.review",
+        "review.findings",
+        "repo.snapshot"
+      ],
+      "produces": [
+        "execution.result"
+      ],
+      "writeScope": "repo-write-scoped",
+      "description": "Apply only separately authorised actionable findings; do not self-authorise scope changes.",
+      "agentPath": "agents/builder/agent.md",
+      "instructions": "workflows/stages/fix-reviewed-defects.md",
+      "outputFile": "EXECUTION.md",
+      "requiresPlanApproval": true,
+      "summary": "Apply only separately authorised actionable findings; do not self-authorise scope changes.",
+      "capabilities": [
+        "fix-reviewed-defects"
+      ]
+    },
+    {
+      "id": "run-tests",
+      "category": "Verify",
+      "label": "Run Tests & Validation",
+      "agentId": "verification-engineer",
+      "consumes": [
+        "repo.snapshot"
+      ],
+      "produces": [
+        "test.results"
+      ],
+      "writeScope": "test-output-only",
+      "description": "Run existing build/lint/typecheck/unit/integration commands; capture exits and logs without feature implementation.",
+      "agentPath": "agents/verification-engineer/agent.md",
+      "instructions": "workflows/stages/run-tests.md",
+      "outputFile": "TEST-RESULTS.md",
+      "requiresPlanApproval": false,
+      "summary": "Run existing build/lint/typecheck/unit/integration commands; capture exits and logs without feature implementation.",
+      "capabilities": [
+        "run-tests"
+      ]
+    },
+    {
+      "id": "run-e2e",
+      "category": "Verify",
+      "label": "Run End-to-End Tests",
+      "agentId": "verification-engineer",
+      "consumes": [
+        "repo.snapshot"
+      ],
+      "produces": [
+        "e2e.results"
+      ],
+      "writeScope": "test-output-only",
+      "description": "Run current browser journeys and capture screenshots/traces; never run build first.",
+      "agentPath": "agents/verification-engineer/agent.md",
+      "instructions": "workflows/stages/run-e2e.md",
+      "outputFile": "E2E-RESULTS.md",
+      "requiresPlanApproval": false,
+      "summary": "Run current browser journeys and capture screenshots/traces; never run build first.",
+      "capabilities": [
+        "run-e2e"
+      ]
+    },
+    {
+      "id": "review-code",
+      "category": "Verify",
+      "label": "Review Code",
+      "agentId": "reviewer",
+      "consumes": [
+        "repo.snapshot"
+      ],
+      "produces": [
+        "review.findings"
+      ],
+      "writeScope": "record-only",
+      "description": "Review diff with evidence; reviewer cannot implement its own suggested changes.",
+      "agentPath": "agents/reviewer/agent.md",
+      "instructions": "workflows/stages/review-code.md",
+      "outputFile": "CODE-REVIEW.md",
+      "requiresPlanApproval": false,
+      "summary": "Review diff with evidence; reviewer cannot implement its own suggested changes.",
+      "capabilities": [
+        "review-code"
+      ]
+    },
+    {
+      "id": "review-ui",
+      "category": "Verify",
+      "label": "Review Visual Fidelity",
+      "agentId": "verification-engineer",
+      "consumes": [
+        "repo.snapshot",
+        "ui.spec"
+      ],
+      "produces": [
+        "ui.visual.review"
+      ],
+      "writeScope": "record-only",
+      "description": "Compare rendered UI to existing design or approved UI spec, with screenshot evidence.",
+      "agentPath": "agents/verification-engineer/agent.md",
+      "instructions": "workflows/stages/review-ui.md",
+      "outputFile": "UI-REVIEW.md",
+      "requiresPlanApproval": false,
+      "summary": "Compare rendered UI to existing design or approved UI spec, with screenshot evidence.",
+      "capabilities": [
+        "review-ui",
+        "ui-design"
+      ]
+    },
+    {
+      "id": "review-accessibility",
+      "category": "Verify",
+      "label": "Review Accessibility",
+      "agentId": "verification-engineer",
+      "consumes": [
+        "repo.snapshot"
+      ],
+      "produces": [
+        "accessibility.review"
+      ],
+      "writeScope": "record-only",
+      "description": "Assess keyboard, focus, semantics and responsive interaction with reproducible evidence; no automatic UI changes.",
+      "agentPath": "agents/verification-engineer/agent.md",
+      "instructions": "workflows/stages/review-accessibility.md",
+      "outputFile": "A11Y-REVIEW.md",
+      "requiresPlanApproval": false,
+      "summary": "Assess keyboard, focus, semantics and responsive interaction with reproducible evidence; no automatic UI changes.",
+      "capabilities": [
+        "review-accessibility",
+        "ui-design"
+      ]
+    },
+    {
+      "id": "review-security",
+      "category": "Verify",
+      "label": "Review Security",
+      "agentId": "verification-engineer",
+      "consumes": [
+        "repo.snapshot"
+      ],
+      "produces": [
+        "security.review"
+      ],
+      "writeScope": "record-only",
+      "description": "Bounded independent static/runtime security verification; report defects without expanding privileges.",
+      "agentPath": "agents/verification-engineer/agent.md",
+      "instructions": "workflows/stages/review-security.md",
+      "outputFile": "SECURITY-REVIEW.md",
+      "requiresPlanApproval": false,
+      "summary": "Bounded independent static/runtime security verification; report defects without expanding privileges.",
+      "capabilities": [
+        "review-security"
+      ]
+    },
+    {
+      "id": "review-dependencies",
+      "category": "Verify",
+      "label": "Review Dependency Risk",
+      "agentId": "reviewer",
+      "consumes": [
+        "repo.snapshot"
+      ],
+      "produces": [
+        "dependency.review"
+      ],
+      "writeScope": "record-only",
+      "description": "Review new package choices, provenance, licenses and supply-chain exposure. Does not install dependencies.",
+      "agentPath": "agents/reviewer/agent.md",
+      "instructions": "workflows/stages/review-dependencies.md",
+      "outputFile": "DEPENDENCY-REVIEW.md",
+      "requiresPlanApproval": false,
+      "summary": "Review new package choices, provenance, licenses and supply-chain exposure. Does not install dependencies.",
+      "capabilities": [
+        "review-dependencies"
+      ]
+    },
+    {
+      "id": "verify-goal",
+      "category": "Verify",
+      "label": "Verify Delivered Goals",
+      "agentId": "reviewer",
+      "consumes": [
+        "request",
+        "repo.snapshot"
+      ],
+      "produces": [
+        "goal.verification"
+      ],
+      "writeScope": "record-only",
+      "description": "Confirm observable outcomes and requirements, rather than only counting tasks.",
+      "agentPath": "agents/reviewer/agent.md",
+      "instructions": "workflows/stages/verify-goal.md",
+      "outputFile": "GOAL-VERIFICATION.md",
+      "requiresPlanApproval": false,
+      "summary": "Confirm observable outcomes and requirements, rather than only counting tasks.",
+      "capabilities": [
+        "verify-goal"
+      ]
+    },
+    {
+      "id": "update-docs",
+      "category": "Document",
+      "label": "Update Documentation",
+      "agentId": "builder",
+      "consumes": [
+        "code.plan",
+        "plan.review",
+        "repo.snapshot"
+      ],
+      "produces": [
+        "docs.change"
+      ],
+      "writeScope": "docs-only",
+      "description": "Update affected docs from real code diff; do not rebuild source code.",
+      "agentPath": "agents/builder/agent.md",
+      "instructions": "workflows/stages/update-docs.md",
+      "outputFile": "DOCS-CHANGE.md",
+      "requiresPlanApproval": true,
+      "summary": "Update affected docs from real code diff; do not rebuild source code.",
+      "capabilities": [
+        "update-docs"
+      ]
+    },
+    {
+      "id": "verify-docs",
+      "category": "Document",
+      "label": "Verify Documentation",
+      "agentId": "reviewer",
+      "consumes": [
+        "repo.snapshot",
+        "docs.change"
+      ],
+      "produces": [
+        "docs.verification"
+      ],
+      "writeScope": "record-only",
+      "description": "Check each documentation claim and command against actual code.",
+      "agentPath": "agents/reviewer/agent.md",
+      "instructions": "workflows/stages/verify-docs.md",
+      "outputFile": "DOCS-VERIFICATION.md",
+      "requiresPlanApproval": false,
+      "summary": "Check each documentation claim and command against actual code.",
+      "capabilities": [
+        "verify-docs"
+      ]
+    },
+    {
+      "id": "verify-performance",
+      "category": "Verify",
+      "label": "Verify Performance",
+      "agentId": "verification-engineer",
+      "consumes": [
+        "repo.snapshot"
+      ],
+      "produces": [
+        "performance.results"
+      ],
+      "writeScope": "test-output-only",
+      "description": "Independently run performance checks against named baselines and budgets; capture commands, metrics and logs without implementing changes.",
+      "agentPath": "agents/verification-engineer/agent.md",
+      "instructions": "workflows/stages/verify-performance.md",
+      "outputFile": "PERFORMANCE-RESULTS.md",
+      "requiresPlanApproval": false,
+      "summary": "Verified performance evidence only.",
+      "capabilities": [
+        "verify-performance"
+      ]
+    }
+  ],
+  "stageCount": 26,
+  "agentCount": 6
+}

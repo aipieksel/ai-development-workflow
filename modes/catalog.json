@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "default": "auto",
+  "modes": [
+    {
+      "id": "auto",
+      "label": "Auto",
+      "summary": "Resolve a concrete mode and source-grounded Fast/Architect routing, then assign actual workers.",
+      "instructions": "references/automatic-selection.md",
+      "writeScope": "task-defined",
+      "stages": "",
+      "requiresIndependentAgents": true,
+      "requiresActualWorkers": true,
+      "minimumContributors": 2
+    },
+    {
+      "id": "plan",
+      "label": "Plan",
+      "summary": "Delegate planning, criticize the plan and stop before product changes.",
+      "instructions": "references/public-modes.md",
+      "writeScope": "record-only",
+      "stages": "012",
+      "requiresIndependentAgents": true,
+      "requiresActualWorkers": true,
+      "minimumContributors": 2
+    },
+    {
+      "id": "build",
+      "label": "Build",
+      "summary": "Use a specialist executor and independent plan/result review for the authorized change.",
+      "instructions": "references/public-modes.md",
+      "writeScope": "repo-write-scoped",
+      "stages": "0123",
+      "requiresIndependentAgents": true,
+      "requiresActualWorkers": true,
+      "minimumContributors": 2
+    },
+    {
+      "id": "review",
+      "label": "Review",
+      "summary": "Delegate meaningful inspection and report findings without implementing repairs.",
+      "instructions": "references/public-modes.md",
+      "writeScope": "record-only",
+      "stages": "",
+      "requiresIndependentAgents": true,
+      "requiresActualWorkers": true,
+      "minimumContributors": 2
+    },
+    {
+      "id": "loop",
+      "label": "Loop",
+      "summary": "Repeat independent review, checklist execution and fresh review until acceptance or a genuine blocker.",
+      "instructions": "references/loop-mode.md",
+      "writeScope": "repo-write-scoped",
+      "stages": "",
+      "requiresIndependentAgents": true,
+      "requiresActualWorkers": true,
+      "minimumContributors": 2
+    }
+  ]
+}

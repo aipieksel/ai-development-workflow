@@ -1,0 +1,408 @@
+{
+  "schemaVersion": 1,
+  "version": "3.3.0",
+  "specialists": [
+    {
+      "id": "react-frontend",
+      "label": "React and frontend systems",
+      "summary": "Apply the existing workflow to React interfaces, reusable components, responsive behaviour and frontend performance.",
+      "useWhen": [
+        "React or Next.js components, application routes, state-driven UI or frontend regressions are in scope.",
+        "Shared design tokens, component APIs or rendering performance affect the requested change."
+      ],
+      "avoidWhen": [
+        "The task is only static content conversion with no React runtime."
+      ],
+      "profile": "specialists/react-frontend.md",
+      "acceptance": [
+        "Affected user journeys work at the required viewport and theme states.",
+        "State and component ownership match the existing architecture.",
+        "Relevant build, type and interaction evidence is recorded; visual review is separate."
+      ]
+    },
+    {
+      "id": "editor-schema",
+      "label": "Editors, registries and persistent schemas",
+      "summary": "Preserve native widget models, nested editability, preset inheritance and persistent tree/configuration semantics across every editor surface.",
+      "useWhen": [
+        "A visual editor, page builder, structured tree, widget registry or saved workspace is changing.",
+        "Document schemas, settings persistence, selection, undo/redo or import/export contracts are involved."
+      ],
+      "avoidWhen": [
+        "The page is a static presentation with no editable document model."
+      ],
+      "profile": "specialists/editor-schema.md",
+      "acceptance": [
+        "Registry, inspector, renderer and export agree on each supported field and default.",
+        "Edit-save-reload-export-import preserves nested relationships, stable identity and intended preset overrides.",
+        "Existing documents survive migration; unsupported fields and malformed input remain visible in diagnostics."
+      ]
+    },
+    {
+      "id": "wordpress-woocommerce",
+      "label": "WordPress and WooCommerce",
+      "summary": "Use WordPress and commerce-specific lifecycle, data, permissions and compatibility checks.",
+      "useWhen": [
+        "A WordPress theme, plugin, block, REST integration or WooCommerce extension is in scope.",
+        "Content storage, custom checkout/order behaviour or PHP/JavaScript integration depends on WordPress."
+      ],
+      "avoidWhen": [
+        "Only WHMCS is affected; there is no WordPress/WooCommerce component or integration.",
+        "The project has no WordPress runtime or compatibility requirement."
+      ],
+      "profile": "specialists/wordpress-woocommerce.md",
+      "acceptance": [
+        "The changed extension loads and behaves on the declared WordPress/PHP/WooCommerce versions.",
+        "Relevant authorised and unauthorised requests behave correctly.",
+        "Lifecycle and data changes preserve existing site/store behaviour and intended data."
+      ]
+    },
+    {
+      "id": "whmcs",
+      "label": "WHMCS modules and client-area systems",
+      "summary": "Assess and implement WHMCS extensions with verified hook contracts, lifecycle and account boundaries.",
+      "useWhen": [
+        "The task changes a WHMCS addon, hook, client-area template, API integration or account workflow.",
+        "Rate limits, billing/account behaviour or module lifecycle depends on WHMCS."
+      ],
+      "avoidWhen": [
+        "The task affects only WordPress/WooCommerce or generic PHP, with no WHMCS integration.",
+        "Only marketing-page copy changes and no WHMCS integration is affected."
+      ],
+      "profile": "specialists/whmcs.md",
+      "acceptance": [
+        "The relevant hook/module executes on the declared host version.",
+        "Account and admin boundaries are exercised with permitted and denied cases.",
+        "Repeat requests, concurrency and upgrade behaviour match the requested policy."
+      ]
+    },
+    {
+      "id": "plugins-mcp",
+      "label": "Plugins, skills and MCP applications",
+      "summary": "Evolve plugin instructions, routers and tool/host contracts from evidence while preserving identity, explicit scope, compatibility and release provenance.",
+      "useWhen": [
+        "A plugin, skill catalogue, command router, MCP server or ChatGPT app is being built or changed.",
+        "Tool descriptors, manifests, widget bridges or native-host contracts affect the requested behaviour."
+      ],
+      "avoidWhen": [
+        "The task only invokes an existing plugin to perform unrelated application work.",
+        "No plugin, tool or host integration is in the actual scope."
+      ],
+      "profile": "specialists/plugins-mcp.md",
+      "acceptance": [
+        "Catalogue entries, handler paths and portable/native route semantics resolve consistently, including preserved explicit invocations.",
+        "Changes retain identity, scope, prompts, configurations and assets outside the authorized delta; private usage history is excluded.",
+        "Realistic behavior and clean-package checks are recorded separately from guarded release/read-back and untested host activation."
+      ]
+    },
+    {
+      "id": "browser-extraction",
+      "label": "Browser evidence and website extraction",
+      "summary": "Ground reconstruction and UI repair in identified source versions, asset dependencies and comparable rendered/interactive states.",
+      "useWhen": [
+        "The task extracts, rebuilds or diagnoses an existing website or browser interface.",
+        "Saved HTML/assets, screenshots, live page behaviour or browser-only failures are evidence."
+      ],
+      "avoidWhen": [
+        "The task is a public factual lookup with no need to interact with a page.",
+        "A native application is the target and the available browser cannot observe it."
+      ],
+      "profile": "specialists/browser-extraction.md",
+      "acceptance": [
+        "Page/state/asset inventory identifies exact sources, output revisions and inaccessible targets.",
+        "Source and output are compared under recorded viewport/theme/font/control conditions.",
+        "Affected interactions and standalone exports are exercised; still screenshots do not stand in for motion or native-editor evidence."
+      ]
+    },
+    {
+      "id": "native-yaml-archives",
+      "label": "Native YAML and archive conversion",
+      "summary": "Map supplied HTML and the current kit to genuinely editable native widgets, presets and complete import packages with explicit custom-code exceptions.",
+      "useWhen": [
+        "A supplied native YAML kit or receiving editor contract governs conversion of HTML, design-system sections or structured bundles.",
+        "Editable cards/products/tabs, preset variables, custom-code restrictions or archive/import compatibility are acceptance requirements."
+      ],
+      "avoidWhen": [
+        "Only a static screenshot or prose explanation is needed.",
+        "No receiving schema/import contract can be obtained; report the gap before claiming compatible native output."
+      ],
+      "profile": "specialists/native-yaml-archives.md",
+      "acceptance": [
+        "The current kit and every requested section reconcile with a supported widget/field/capability mapping.",
+        "Custom HTML stays inside the explicit exception allowlist; presets, assets and nested editability are preserved.",
+        "Parsing, schema checks, actual editor import and rendered parity are reported as separate evidence levels."
+      ]
+    },
+    {
+      "id": "content-seo",
+      "label": "Structured content and technical SEO",
+      "summary": "Build and migrate source-grounded content collections with real destinations, preserved approved copy, coherent presentation and validated metadata/schema.",
+      "useWhen": [
+        "Markdown/MDX content, seo.yaml/schema.yaml, article migrations or generated service pages are in scope.",
+        "Canonical URLs, sitemaps, redirects, internal links or structured-data output are affected."
+      ],
+      "avoidWhen": [
+        "The task requests only general marketing strategy with no implementation or content artefact."
+      ],
+      "profile": "specialists/content-seo.md",
+      "acceptance": [
+        "Every requested content item maps to a produced destination or explicit exception; absent content is not invented to fill navigation.",
+        "Approved headings, code, assets and required content variants survive conversion and agree with visible output.",
+        "Metadata/schema/internal links validate against current content and canonical routes without unsupported product or ranking claims."
+      ]
+    },
+    {
+      "id": "python-data",
+      "label": "Python automation and data pipelines",
+      "summary": "Build resumable data processing with validated inputs, explicit failures and reconciled outputs.",
+      "useWhen": [
+        "Python scripts, API ingestion, scraping outputs, transformations or automation pipelines are changing.",
+        "Pagination, retries, checkpoints, data contracts or partial failure affect correctness."
+      ],
+      "avoidWhen": [
+        "The project has no Python/data-processing component."
+      ],
+      "profile": "specialists/python-data.md",
+      "acceptance": [
+        "Representative real input produces schema-valid, reconciled output.",
+        "Reruns, partial failures and pagination do not silently lose or duplicate data.",
+        "Existing runtime/tooling and externally visible data contracts remain compatible."
+      ]
+    },
+    {
+      "id": "database",
+      "label": "Database schemas and data integrity",
+      "summary": "Apply engine-specific checks to migrations, queries, tenant access, locks and data compatibility.",
+      "useWhen": [
+        "SQL/schema changes, query behaviour, data access rules or database performance are in scope.",
+        "A migration, import, restore or concurrency issue can affect persisted data."
+      ],
+      "avoidWhen": [
+        "The change is purely presentational and does not alter data access."
+      ],
+      "profile": "specialists/database.md",
+      "acceptance": [
+        "Schema/query changes match the detected engine and migration tooling.",
+        "Data invariants, access boundaries and relevant concurrency behaviour hold.",
+        "Migration and rollback/recovery evidence is appropriate to the authorised environment."
+      ]
+    },
+    {
+      "id": "infrastructure",
+      "label": "Infrastructure and deployment configuration",
+      "summary": "Ground infrastructure changes in provider versions, actual state, execution mode and recovery evidence.",
+      "useWhen": [
+        "Server/container configuration, infrastructure as code, CI deployment or runtime operations are changing.",
+        "Networking, secrets, storage, provisioning or service health affect the requested result."
+      ],
+      "avoidWhen": [
+        "The task is only application UI/content work with no infrastructure impact."
+      ],
+      "profile": "specialists/infrastructure.md",
+      "acceptance": [
+        "Configuration validates with the detected tool/provider versions.",
+        "Planned changes and affected resources are understood before authorised application.",
+        "Health and recovery checks distinguish prepared, applied and verified states."
+      ]
+    },
+    {
+      "id": "migration-release",
+      "label": "Migration, recovery and release completion",
+      "summary": "Resume interrupted work from real source and task evidence, preserve milestones and reconcile the requested repository/package/release outcome.",
+      "useWhen": [
+        "The task resumes a stalled build, migrates systems, recovers missing work or completes a release.",
+        "Local files, branches, commits, remote repositories or packaged versions disagree."
+      ],
+      "avoidWhen": [
+        "There is no migration/release/recovery scope and a normal implementation stage suffices."
+      ],
+      "profile": "specialists/migration-release.md",
+      "acceptance": [
+        "Task scope is reconciled against actual local, committed, pushed, packaged and deployed revisions.",
+        "Authorized significant milestones and next actions are preserved without erasing unrelated work or publishing user media beyond the authorized deliverable and audience.",
+        "Remote/package/readback evidence and remaining source, access or environment failures are distinguished explicitly."
+      ]
+    },
+    {
+      "id": "realtime-native",
+      "label": "Realtime media and native application lifecycles",
+      "summary": "Trace message identity, delivery/history, hidden/popout views and shared media ownership through the actual realtime or native runtime.",
+      "useWhen": [
+        "The actual repository uses realtime chat/media, WebRTC, streaming or multi-window state.",
+        "A native macOS application or SwiftUI/AppKit bridge is explicitly part of the task."
+      ],
+      "avoidWhen": [
+        "A device mentioned in conversation is only the user's computer, not the project target.",
+        "The task is static frontend work with no realtime or native lifecycle."
+      ],
+      "profile": "specialists/realtime-native.md",
+      "acceptance": [
+        "Duplicate/retried/reordered messages, acknowledgements, previews and persisted history behave across relevant view/session transitions.",
+        "Hidden/popout views retain required subscriptions and shared camera/media owners release resources only at the correct boundary.",
+        "Live settings, layout and reconnect/teardown checks identify what ran in a real host versus a simulation."
+      ]
+    },
+    {
+      "id": "reference-fidelity",
+      "label": "Reference fidelity and precise corrections",
+      "summary": "Preserve approved source identity, constrain changes to requested deltas and verify observable results without collateral redesign.",
+      "useWhen": [
+        "The task reconstructs or adapts supplied HTML, images, screenshots or approved artifacts.",
+        "Specific corrections, reference-locked variants or repeated complaints require an item-level delta and preservation checks."
+      ],
+      "avoidWhen": [
+        "No reference/preservation requirement affects the change.",
+        "The user explicitly requests free exploration; do not impose pixel matching without a source contract."
+      ],
+      "profile": "specialists/reference-fidelity.md",
+      "acceptance": [
+        "Every correction/target maps to its exact source, allowed change and protected properties.",
+        "Comparable before/after evidence shows the named delta and checks retained properties against regression.",
+        "Exactness claims state the actual renderer, conditions and comparison result; unavailable visual evidence remains unverified."
+      ]
+    },
+    {
+      "id": "design-system",
+      "label": "Shared design systems, typography and presets",
+      "summary": "Maintain canonical components, tokens, fonts, icons and saved visual presets consistently across consumers and interaction states.",
+      "useWhen": [
+        "Shared sections, design tokens, typography systems, icon libraries or component catalogs change.",
+        "Theme/accent/font controls, per-section overrides or reusable HTML exports need consistent styling and persistence."
+      ],
+      "avoidWhen": [
+        "An isolated illustration has no shared system or consumer contract.",
+        "The task changes only local copy and does not need new theme/catalog infrastructure."
+      ],
+      "profile": "specialists/design-system.md",
+      "acceptance": [
+        "Changed component families and consumers reconcile with canonical owners and the expected rollout inventory.",
+        "Font loading/computed styles and relevant mode/accent/type/interaction/viewport states are actually checked.",
+        "Preset change/save/reload/export behavior and standalone component dependencies match their declared contract."
+      ]
+    },
+    {
+      "id": "image-art-direction",
+      "label": "Image art direction and consistent asset production",
+      "summary": "Direct authorized image generation/editing with source-locked composition, consistent geometry and semantically distinct product concepts.",
+      "useWhen": [
+        "Product renders, hero/CTA imagery, consistent asset families or precise reference-image edits are requested.",
+        "Multiple image concepts or variants need shared-base invariants, meaningful differences and a reconciled output set."
+      ],
+      "avoidWhen": [
+        "An exact chart/technical diagram needs deterministic geometry or factual data.",
+        "The task implements raster-to-vector conversion rather than generating/editing visual art."
+      ],
+      "profile": "specialists/image-art-direction.md",
+      "acceptance": [
+        "Requested assets, dimensions, backgrounds and individual/sheet output forms reconcile with the target matrix.",
+        "Reference and output inspection checks geometry, orientation, edges, material detail, composition and protected properties.",
+        "Actual image-tool identity/evidence and any fidelity limits are reported without claiming unsupported pixel preservation."
+      ]
+    },
+    {
+      "id": "motion-interaction",
+      "label": "Motion, interactive widgets and temporal verification",
+      "summary": "Model and verify meaningful animation sequences, transitions, controls and theme-dependent states over a complete relevant cycle.",
+      "useWhen": [
+        "Animated hero widgets, terminals, maps, carousels, tab cycles or transition defects are in scope.",
+        "Pacing, flashing, jumping, barely visible state changes, playback controls or preview clutter affect the requested result."
+      ],
+      "avoidWhen": [
+        "The target is static imagery with no temporal behavior.",
+        "Only realtime session/resource ownership is involved; use realtime-native."
+      ],
+      "profile": "specialists/motion-interaction.md",
+      "acceptance": [
+        "Changed timelines, startup/loop states and relevant controls are observed in the actual supported runtime.",
+        "Timing, layout stability, readability and theme states are checked separately from static appearance.",
+        "Evidence records output revision and observed cycles; screenshots/builds do not imply temporal verification."
+      ]
+    },
+    {
+      "id": "media-library",
+      "label": "Media libraries, archive ingestion and local conversion",
+      "summary": "Extend existing media-workspace navigation, imports, storage and conversion while preserving identity, privacy and measurable fidelity.",
+      "useWhen": [
+        "An HTML/image/icon library, nested ZIP importer, media tree/gallery or large asset workflow changes.",
+        "Local conversion, native-pixel comparison, source/preview mapping or media loading performance is a requirement."
+      ],
+      "avoidWhen": [
+        "The task creates visual art rather than library/conversion behavior.",
+        "A simple one-file export does not involve app integration, ingestion or asset lifecycle."
+      ],
+      "profile": "specialists/media-library.md",
+      "acceptance": [
+        "New categories reuse intended shell/tree/import lifecycles and survive reload/navigation/export alongside existing ones.",
+        "Requested/imported/duplicate/failed targets reconcile and nested resource links remain valid.",
+        "Fidelity/performance/local-only claims are supported by appropriate real comparisons and observations, with actual transport limits stated."
+      ]
+    },
+    {
+      "id": "artifact-delivery",
+      "label": "Artifact completeness and verified delivery",
+      "summary": "Reconcile complete deliverables, dependency closure, actual output revisions and authorized destination readback before claiming handoff.",
+      "useWhen": [
+        "Multi-file packages, standalone components, archives, asset sets or saved catalog revisions must be delivered.",
+        "Import, upload, publication or stale-output complaints require exact target/version and completeness evidence."
+      ],
+      "avoidWhen": [
+        "The task is explanation-only with no artifact or delivery requirement.",
+        "A format owner still needs to validate the content; packaging alone cannot replace that work."
+      ],
+      "profile": "specialists/artifact-delivery.md",
+      "acceptance": [
+        "Final artifacts and dependency closure reconcile with the independent requested inventory.",
+        "Standalone/opening or clean-extraction checks run in the intended receiving context.",
+        "Saved/uploaded/published/observed states identify the same verified output revision, with readback gaps and provider-authenticity limits explicit."
+      ]
+    },
+    {
+      "id": "usage-learning",
+      "label": "Usage evidence and workflow improvement",
+      "summary": "Analyze complete task evidence with deduplication and outcome limits, map demand to current capabilities and evaluate bounded plugin improvements.",
+      "useWhen": [
+        "Usage exports, agent traces or repeated feedback are supplied to improve plugins, skills, routers or workflows.",
+        "Existing-versus-missing capability analysis and prioritized evidence-grounded instruction changes are requested."
+      ],
+      "avoidWhen": [
+        "The request is ordinary task execution or one local correction already owned by a domain stage.",
+        "Unrelated personal-history discovery is not needed or authorized for the current request."
+      ],
+      "profile": "specialists/usage-learning.md",
+      "acceptance": [
+        "All available requested records reconcile with row-level analysis, duplicate/omission handling and reproducible denominators.",
+        "Changes map concrete demand to existing/refined/new capability owners while preserving current scope and compatibility.",
+        "Sanitized realistic evaluation and private-data exclusion are verified separately from release/host activation."
+      ]
+    },
+    {
+      "id": "ui-design",
+      "label": "UI Design Director",
+      "summary": "Apply scoped visual corrections and a coherent design direction to every relevant UI task, with complete target review and evidence of visible quality.",
+      "useWhen": [
+        "The actual request creates, changes, reconstructs, reviews or improves a user-visible layout, design, typography, palette, spacing, component presentation, visual asset or motion.",
+        "A contextual follow-up asks for visual improvement or corrects prior output, including brief feedback without explicit UI keywords.",
+        "A mixed engineering task changes user-facing presentation; apply this lens only to the relevant part and preserve the selected stage boundary."
+      ],
+      "avoidWhen": [
+        "The actual task is nonvisual backend, data, infrastructure or source analysis; incidental UI vocabulary does not establish visual scope.",
+        "Only a selector or a bare invocation with no recoverable task context is present; identify the actual task before assigning work."
+      ],
+      "profile": "specialists/ui-design.md",
+      "references": [
+        "references/ui-routing.md",
+        "references/ui-correction-playbook.md",
+        "references/ui-correction-rules.json",
+        "references/ui-quality-review.md",
+        "agents/ui-design-director/agent.md",
+        "references/ui-component-craft.md"
+      ],
+      "acceptance": [
+        "Current task, approved source, permitted changes, protected properties and canonical component/token owners determine the design contract before edits.",
+        "Every explicitly requested target is visually inspected with its own disposition, defects and improvement opportunities; a sample never becomes an exhaustive review claim.",
+        "Rendered appearance, relevant interactions and motion are checked against the actual output revision; structural validation alone is not proof of visual quality.",
+        "Native editor work maps to supported kit widgets and authorized exceptions, while project preferences and historical numeric examples remain scoped to their actual context."
+      ]
+    }
+  ]
+}

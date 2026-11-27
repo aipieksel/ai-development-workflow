@@ -1,0 +1,7 @@
+__pycache__/
+*.py[cod]
+/dist/
+/.aidw-debug/
+/documents/tasks/
+.DS_Store
+/docs/tasks/checklist/

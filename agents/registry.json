@@ -1,0 +1,941 @@
+{
+  "schemaVersion": 1,
+  "domainCatalog": "specialists/catalog.json",
+  "families": {
+    "investigator": {
+      "label": "Investigator",
+      "profile": "agents/investigator/agent.md"
+    },
+    "architect": {
+      "label": "Architect and Planner",
+      "profile": "agents/architect/agent.md"
+    },
+    "builder": {
+      "label": "Builder",
+      "profile": "agents/builder/agent.md"
+    },
+    "ui-design-director": {
+      "label": "UI Director",
+      "profile": "agents/ui-design-director/agent.md"
+    },
+    "reviewer": {
+      "label": "Reviewer",
+      "profile": "agents/reviewer/agent.md"
+    },
+    "verification-engineer": {
+      "label": "Verification Engineer",
+      "profile": "agents/verification-engineer/agent.md"
+    }
+  },
+  "capabilities": {
+    "research-technical": {
+      "instructions": "agents/capabilities/investigation.md",
+      "families": [
+        "investigator"
+      ]
+    },
+    "discover-contributions": {
+      "instructions": "agents/capabilities/investigation.md",
+      "families": [
+        "investigator"
+      ]
+    },
+    "assess-codebase": {
+      "instructions": "agents/capabilities/investigation.md",
+      "families": [
+        "investigator"
+      ]
+    },
+    "diagnose-failure": {
+      "instructions": "agents/capabilities/investigation.md",
+      "families": [
+        "investigator"
+      ]
+    },
+    "extract-behaviour-spec": {
+      "instructions": "agents/capabilities/investigation.md",
+      "families": [
+        "investigator"
+      ]
+    },
+    "plan-goals": {
+      "instructions": "agents/capabilities/planning.md",
+      "families": [
+        "architect",
+        "builder"
+      ]
+    },
+    "design-architecture": {
+      "instructions": "agents/capabilities/planning.md",
+      "families": [
+        "architect"
+      ]
+    },
+    "plan-code": {
+      "instructions": "agents/capabilities/planning.md",
+      "families": [
+        "architect",
+        "builder"
+      ]
+    },
+    "plan-tests": {
+      "instructions": "agents/capabilities/planning.md",
+      "families": [
+        "architect",
+        "builder"
+      ]
+    },
+    "write-red-tests": {
+      "instructions": "agents/capabilities/building.md",
+      "families": [
+        "builder"
+      ]
+    },
+    "execute-plan": {
+      "instructions": "agents/capabilities/building.md",
+      "families": [
+        "builder"
+      ]
+    },
+    "fix-reviewed-defects": {
+      "instructions": "agents/capabilities/building.md",
+      "families": [
+        "builder"
+      ]
+    },
+    "fast-build": {
+      "instructions": "agents/capabilities/building.md",
+      "families": [
+        "builder"
+      ]
+    },
+    "tdd": {
+      "instructions": "agents/capabilities/building.md",
+      "families": [
+        "builder"
+      ]
+    },
+    "green-refactor": {
+      "instructions": "agents/capabilities/building.md",
+      "families": [
+        "builder"
+      ]
+    },
+    "cleanup": {
+      "instructions": "agents/capabilities/building.md",
+      "families": [
+        "builder"
+      ]
+    },
+    "author-e2e": {
+      "instructions": "agents/capabilities/building.md",
+      "families": [
+        "builder"
+      ]
+    },
+    "update-docs": {
+      "instructions": "agents/capabilities/delivery.md",
+      "families": [
+        "builder"
+      ]
+    },
+    "delivery": {
+      "instructions": "agents/capabilities/delivery.md",
+      "families": [
+        "builder"
+      ]
+    },
+    "design-ui": {
+      "instructions": "agents/capabilities/ui-design.md",
+      "families": [
+        "ui-design-director"
+      ]
+    },
+    "audit-ui": {
+      "instructions": "agents/capabilities/ui-design.md",
+      "families": [
+        "ui-design-director"
+      ]
+    },
+    "visual-fidelity": {
+      "instructions": "agents/capabilities/ui-design.md",
+      "families": [
+        "ui-design-director",
+        "builder",
+        "reviewer",
+        "verification-engineer"
+      ]
+    },
+    "review-ui-spec": {
+      "instructions": "agents/capabilities/review.md",
+      "families": [
+        "reviewer"
+      ]
+    },
+    "review-plan": {
+      "instructions": "agents/capabilities/review.md",
+      "families": [
+        "reviewer"
+      ]
+    },
+    "review-code": {
+      "instructions": "agents/capabilities/review.md",
+      "families": [
+        "reviewer",
+        "builder"
+      ]
+    },
+    "review-dependencies": {
+      "instructions": "agents/capabilities/review.md",
+      "families": [
+        "reviewer",
+        "builder"
+      ]
+    },
+    "verify-goal": {
+      "instructions": "agents/capabilities/review.md",
+      "families": [
+        "reviewer"
+      ]
+    },
+    "verify-docs": {
+      "instructions": "agents/capabilities/review.md",
+      "families": [
+        "reviewer"
+      ]
+    },
+    "run-tests": {
+      "instructions": "agents/capabilities/verification.md",
+      "families": [
+        "verification-engineer",
+        "builder",
+        "reviewer"
+      ]
+    },
+    "run-e2e": {
+      "instructions": "agents/capabilities/verification.md",
+      "families": [
+        "verification-engineer",
+        "builder",
+        "reviewer"
+      ]
+    },
+    "review-ui": {
+      "instructions": "agents/capabilities/verification.md",
+      "families": [
+        "verification-engineer",
+        "reviewer",
+        "builder"
+      ]
+    },
+    "review-accessibility": {
+      "instructions": "agents/capabilities/verification.md",
+      "families": [
+        "verification-engineer",
+        "reviewer",
+        "builder"
+      ]
+    },
+    "review-security": {
+      "instructions": "agents/capabilities/verification.md",
+      "families": [
+        "verification-engineer",
+        "reviewer",
+        "builder"
+      ]
+    },
+    "verify-performance": {
+      "instructions": "agents/capabilities/verification.md",
+      "families": [
+        "verification-engineer",
+        "reviewer",
+        "builder"
+      ]
+    },
+    "loop-execution": {
+      "instructions": "agents/capabilities/loop.md",
+      "families": [
+        "builder"
+      ]
+    },
+    "loop-review": {
+      "instructions": "agents/capabilities/loop.md",
+      "families": [
+        "reviewer"
+      ]
+    },
+    "ui-design": {
+      "instructions": "specialists/ui-design.md",
+      "families": [
+        "investigator",
+        "architect",
+        "builder",
+        "ui-design-director",
+        "reviewer",
+        "verification-engineer"
+      ]
+    }
+  },
+  "operations": {
+    "research-technical": {
+      "family": "investigator",
+      "capabilities": [
+        "research-technical"
+      ]
+    },
+    "discover-contributions": {
+      "family": "investigator",
+      "capabilities": [
+        "discover-contributions"
+      ]
+    },
+    "assess-codebase": {
+      "family": "investigator",
+      "capabilities": [
+        "assess-codebase"
+      ]
+    },
+    "diagnose-failure": {
+      "family": "investigator",
+      "capabilities": [
+        "diagnose-failure"
+      ]
+    },
+    "extract-behaviour-spec": {
+      "family": "investigator",
+      "capabilities": [
+        "extract-behaviour-spec"
+      ]
+    },
+    "plan-goals": {
+      "family": "architect",
+      "capabilities": [
+        "plan-goals"
+      ]
+    },
+    "design-architecture": {
+      "family": "architect",
+      "capabilities": [
+        "design-architecture"
+      ]
+    },
+    "plan-code": {
+      "family": "architect",
+      "capabilities": [
+        "plan-code"
+      ]
+    },
+    "plan-tests": {
+      "family": "architect",
+      "capabilities": [
+        "plan-tests"
+      ]
+    },
+    "design-ui": {
+      "family": "ui-design-director",
+      "capabilities": [
+        "design-ui",
+        "ui-design"
+      ]
+    },
+    "write-red-tests": {
+      "family": "builder",
+      "capabilities": [
+        "write-red-tests"
+      ]
+    },
+    "execute-plan": {
+      "family": "builder",
+      "capabilities": [
+        "execute-plan"
+      ]
+    },
+    "fix-reviewed-defects": {
+      "family": "builder",
+      "capabilities": [
+        "fix-reviewed-defects"
+      ]
+    },
+    "update-docs": {
+      "family": "builder",
+      "capabilities": [
+        "update-docs"
+      ]
+    },
+    "review-ui-spec": {
+      "family": "reviewer",
+      "capabilities": [
+        "review-ui-spec",
+        "ui-design"
+      ]
+    },
+    "review-plan": {
+      "family": "reviewer",
+      "capabilities": [
+        "review-plan"
+      ]
+    },
+    "review-code": {
+      "family": "reviewer",
+      "capabilities": [
+        "review-code"
+      ]
+    },
+    "review-dependencies": {
+      "family": "reviewer",
+      "capabilities": [
+        "review-dependencies"
+      ]
+    },
+    "verify-goal": {
+      "family": "reviewer",
+      "capabilities": [
+        "verify-goal"
+      ]
+    },
+    "verify-docs": {
+      "family": "reviewer",
+      "capabilities": [
+        "verify-docs"
+      ]
+    },
+    "run-tests": {
+      "family": "verification-engineer",
+      "capabilities": [
+        "run-tests"
+      ]
+    },
+    "run-e2e": {
+      "family": "verification-engineer",
+      "capabilities": [
+        "run-e2e"
+      ]
+    },
+    "review-ui": {
+      "family": "verification-engineer",
+      "capabilities": [
+        "review-ui",
+        "ui-design"
+      ]
+    },
+    "review-accessibility": {
+      "family": "verification-engineer",
+      "capabilities": [
+        "review-accessibility",
+        "ui-design"
+      ]
+    },
+    "review-security": {
+      "family": "verification-engineer",
+      "capabilities": [
+        "review-security"
+      ]
+    },
+    "verify-performance": {
+      "family": "verification-engineer",
+      "capabilities": [
+        "verify-performance"
+      ]
+    }
+  },
+  "operationAliases": {
+    "assess_codebase": "assess-codebase",
+    "research": "research-technical",
+    "discover_contributions": "discover-contributions",
+    "design_spec": "design-ui",
+    "review_plan": "review-plan",
+    "write_red_tests": "write-red-tests",
+    "execute_plan": "execute-plan",
+    "execute_and_test": "execute-plan",
+    "execute_tdd": "execute-plan",
+    "verify_unit": "run-tests",
+    "verify_e2e": "run-e2e",
+    "verify_security": "review-security",
+    "verify_accessibility": "review-accessibility",
+    "verify_performance": "verify-performance",
+    "update_docs": "update-docs"
+  },
+  "legacyProfiles": {
+    "agents/accessibility-verifier/agent.md": {
+      "family": "verification-engineer",
+      "capabilities": [
+        "review-accessibility",
+        "ui-design"
+      ],
+      "operationOverrides": {
+        "execute_and_test": {
+          "family": "builder",
+          "capabilities": [
+            "execute-plan",
+            "review-accessibility",
+            "ui-design"
+          ]
+        }
+      }
+    },
+    "agents/architect/agent.md": {
+      "family": "architect",
+      "capabilities": [
+        "design-architecture"
+      ],
+      "operationOverrides": {
+        "consult": {
+          "family": "architect",
+          "capabilities": [
+            "design-architecture"
+          ]
+        }
+      }
+    },
+    "agents/code-goal-planner/agent.md": {
+      "family": "architect",
+      "capabilities": [
+        "plan-code"
+      ],
+      "operationOverrides": {
+        "consult": {
+          "family": "architect",
+          "capabilities": [
+            "plan-code"
+          ]
+        }
+      }
+    },
+    "agents/code-reviewer/agent.md": {
+      "family": "reviewer",
+      "capabilities": [
+        "review-code"
+      ],
+      "operationOverrides": {
+        "review": {
+          "family": "reviewer",
+          "capabilities": [
+            "review-code"
+          ]
+        },
+        "execute_and_test": {
+          "family": "builder",
+          "capabilities": [
+            "execute-plan",
+            "review-code"
+          ]
+        }
+      }
+    },
+    "agents/codebase-assessor/agent.md": {
+      "family": "investigator",
+      "capabilities": [
+        "assess-codebase"
+      ],
+      "operationOverrides": {}
+    },
+    "agents/contribution-scout/agent.md": {
+      "family": "investigator",
+      "capabilities": [
+        "discover-contributions"
+      ],
+      "operationOverrides": {}
+    },
+    "agents/design-specialist/agent.md": {
+      "family": "ui-design-director",
+      "capabilities": [
+        "audit-ui",
+        "design-ui",
+        "ui-design"
+      ],
+      "operationOverrides": {
+        "audit_design": {
+          "family": "ui-design-director",
+          "capabilities": [
+            "audit-ui",
+            "ui-design"
+          ]
+        },
+        "design_spec": {
+          "family": "ui-design-director",
+          "capabilities": [
+            "design-ui",
+            "ui-design"
+          ]
+        }
+      }
+    },
+    "agents/doc-updater/agent.md": {
+      "family": "builder",
+      "capabilities": [
+        "update-docs"
+      ],
+      "operationOverrides": {}
+    },
+    "agents/e2e-runner/agent.md": {
+      "family": "verification-engineer",
+      "capabilities": [
+        "run-e2e"
+      ],
+      "operationOverrides": {
+        "test": {
+          "family": "verification-engineer",
+          "capabilities": [
+            "run-e2e"
+          ]
+        },
+        "execute_and_test": {
+          "family": "builder",
+          "capabilities": [
+            "execute-plan",
+            "run-e2e"
+          ]
+        }
+      }
+    },
+    "agents/fast-engineer/agent.md": {
+      "family": "builder",
+      "capabilities": [
+        "execute-plan",
+        "fast-build"
+      ],
+      "operationOverrides": {}
+    },
+    "agents/feature-finaliser/agent.md": {
+      "family": "builder",
+      "capabilities": [
+        "execute-plan",
+        "delivery"
+      ],
+      "operationOverrides": {}
+    },
+    "agents/goal-planner/agent.md": {
+      "family": "architect",
+      "capabilities": [
+        "plan-goals"
+      ],
+      "operationOverrides": {
+        "consult": {
+          "family": "architect",
+          "capabilities": [
+            "plan-goals"
+          ]
+        }
+      }
+    },
+    "agents/implementation-executor/agent.md": {
+      "family": "builder",
+      "capabilities": [
+        "execute-plan"
+      ],
+      "operationOverrides": {}
+    },
+    "agents/loop-executor/agent.md": {
+      "family": "builder",
+      "capabilities": [
+        "execute-plan",
+        "loop-execution"
+      ],
+      "operationOverrides": {
+        "execute_checklist": {
+          "family": "builder",
+          "capabilities": [
+            "execute-plan",
+            "loop-execution"
+          ]
+        }
+      }
+    },
+    "agents/loop-reviewer/agent.md": {
+      "family": "reviewer",
+      "capabilities": [
+        "review-code",
+        "loop-review"
+      ],
+      "operationOverrides": {
+        "inspect_original_and_result": {
+          "family": "reviewer",
+          "capabilities": [
+            "review-code",
+            "loop-review"
+          ]
+        },
+        "review_current_result": {
+          "family": "reviewer",
+          "capabilities": [
+            "review-code",
+            "loop-review"
+          ]
+        },
+        "confirm_exact_repair_plan": {
+          "family": "reviewer",
+          "capabilities": [
+            "review-plan",
+            "loop-review"
+          ]
+        }
+      }
+    },
+    "agents/performance-verifier/agent.md": {
+      "family": "verification-engineer",
+      "capabilities": [
+        "verify-performance"
+      ],
+      "operationOverrides": {
+        "execute_and_test": {
+          "family": "builder",
+          "capabilities": [
+            "execute-plan",
+            "verify-performance"
+          ]
+        }
+      }
+    },
+    "agents/plan-reviewer/agent.md": {
+      "family": "reviewer",
+      "capabilities": [
+        "review-plan"
+      ],
+      "operationOverrides": {}
+    },
+    "agents/red-test-author/agent.md": {
+      "family": "builder",
+      "capabilities": [
+        "write-red-tests"
+      ],
+      "operationOverrides": {}
+    },
+    "agents/refactor-cleaner/agent.md": {
+      "family": "builder",
+      "capabilities": [
+        "execute-plan",
+        "cleanup"
+      ],
+      "operationOverrides": {
+        "cleanup": {
+          "family": "builder",
+          "capabilities": [
+            "execute-plan",
+            "cleanup"
+          ]
+        },
+        "clean_and_test": {
+          "family": "builder",
+          "capabilities": [
+            "execute-plan",
+            "cleanup"
+          ]
+        }
+      }
+    },
+    "agents/researcher/agent.md": {
+      "family": "investigator",
+      "capabilities": [
+        "research-technical"
+      ],
+      "operationOverrides": {}
+    },
+    "agents/security-verifier/agent.md": {
+      "family": "verification-engineer",
+      "capabilities": [
+        "review-security"
+      ],
+      "operationOverrides": {
+        "execute_and_test": {
+          "family": "builder",
+          "capabilities": [
+            "execute-plan",
+            "review-security"
+          ]
+        }
+      }
+    },
+    "agents/tdd-guide/agent.md": {
+      "family": "builder",
+      "capabilities": [
+        "execute-plan",
+        "tdd"
+      ],
+      "operationOverrides": {
+        "write-red-tests": {
+          "family": "builder",
+          "capabilities": [
+            "write-red-tests",
+            "tdd"
+          ]
+        },
+        "write_red_tests": {
+          "family": "builder",
+          "capabilities": [
+            "write-red-tests",
+            "tdd"
+          ]
+        }
+      }
+    },
+    "agents/tdd-implementer/agent.md": {
+      "family": "builder",
+      "capabilities": [
+        "execute-plan",
+        "green-refactor"
+      ],
+      "operationOverrides": {}
+    },
+    "agents/ui-design-director/agent.md": {
+      "family": "ui-design-director",
+      "capabilities": [
+        "ui-design"
+      ],
+      "operationOverrides": {
+        "audit_design": {
+          "family": "ui-design-director",
+          "capabilities": [
+            "audit-ui",
+            "ui-design"
+          ]
+        },
+        "design_spec": {
+          "family": "ui-design-director",
+          "capabilities": [
+            "design-ui",
+            "ui-design"
+          ]
+        },
+        "inspect_reference": {
+          "family": "ui-design-director",
+          "capabilities": [
+            "visual-fidelity",
+            "ui-design"
+          ]
+        }
+      }
+    },
+    "agents/unit-verifier/agent.md": {
+      "family": "verification-engineer",
+      "capabilities": [
+        "run-tests"
+      ],
+      "operationOverrides": {}
+    },
+    "agents/visual-fidelity/agent.md": {
+      "family": "ui-design-director",
+      "capabilities": [
+        "visual-fidelity",
+        "ui-design"
+      ],
+      "operationOverrides": {
+        "inspect_reference": {
+          "family": "ui-design-director",
+          "capabilities": [
+            "visual-fidelity",
+            "ui-design"
+          ]
+        },
+        "execute_and_test": {
+          "family": "builder",
+          "capabilities": [
+            "execute-plan",
+            "visual-fidelity",
+            "ui-design"
+          ]
+        },
+        "review-ui": {
+          "family": "verification-engineer",
+          "capabilities": [
+            "review-ui",
+            "visual-fidelity",
+            "ui-design"
+          ]
+        }
+      }
+    },
+    "workflows/agents/behaviour-spec-miner/agent.md": {
+      "family": "investigator",
+      "capabilities": [
+        "extract-behaviour-spec"
+      ],
+      "operationOverrides": {}
+    },
+    "workflows/agents/dependency-risk-reviewer/agent.md": {
+      "family": "reviewer",
+      "capabilities": [
+        "review-dependencies"
+      ],
+      "operationOverrides": {}
+    },
+    "workflows/agents/doc-verifier/agent.md": {
+      "family": "reviewer",
+      "capabilities": [
+        "verify-docs"
+      ],
+      "operationOverrides": {}
+    },
+    "workflows/agents/goal-verifier/agent.md": {
+      "family": "reviewer",
+      "capabilities": [
+        "verify-goal"
+      ],
+      "operationOverrides": {}
+    },
+    "workflows/agents/plan-executor/agent.md": {
+      "family": "builder",
+      "capabilities": [
+        "execute-plan"
+      ],
+      "operationOverrides": {
+        "fix-reviewed-defects": {
+          "family": "builder",
+          "capabilities": [
+            "fix-reviewed-defects"
+          ]
+        }
+      }
+    },
+    "workflows/agents/plan-reviewer/agent.md": {
+      "family": "reviewer",
+      "capabilities": [
+        "review-plan"
+      ],
+      "operationOverrides": {}
+    },
+    "workflows/agents/researcher/agent.md": {
+      "family": "investigator",
+      "capabilities": [
+        "research-technical"
+      ],
+      "operationOverrides": {}
+    },
+    "workflows/agents/root-cause-analyst/agent.md": {
+      "family": "investigator",
+      "capabilities": [
+        "diagnose-failure"
+      ],
+      "operationOverrides": {}
+    },
+    "workflows/agents/test-runner/agent.md": {
+      "family": "verification-engineer",
+      "capabilities": [
+        "run-tests"
+      ],
+      "operationOverrides": {}
+    },
+    "workflows/agents/test-strategist/agent.md": {
+      "family": "architect",
+      "capabilities": [
+        "plan-tests"
+      ],
+      "operationOverrides": {}
+    },
+    "workflows/agents/ui-design-architect/agent.md": {
+      "family": "ui-design-director",
+      "capabilities": [
+        "design-ui",
+        "ui-design"
+      ],
+      "operationOverrides": {}
+    },
+    "workflows/agents/ui-spec-reviewer/agent.md": {
+      "family": "reviewer",
+      "capabilities": [
+        "review-ui-spec",
+        "ui-design"
+      ],
+      "operationOverrides": {}
+    }
+  }
+}

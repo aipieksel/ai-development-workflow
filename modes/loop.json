@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "id": "loop",
+  "label": "Loop \u2014 Execute and Review",
+  "launcher": "ai-dev-loop",
+  "summary": "Review original and delivered work, execute the reconciled checklist, and repeat fresh independent review until accepted.",
+  "instructions": "references/loop-mode.md",
+  "profiles": [
+    "agents/reviewer/agent.md",
+    "agents/builder/agent.md",
+    "agents/verification-engineer/agent.md"
+  ],
+  "references": [
+    "references/loop-artifacts.md",
+    "references/loop-timers.md",
+    "scripts/loop_checklist.py",
+    "references/browser-recovery.md"
+  ],
+  "writeScope": "repo-write-scoped",
+  "requiresNativeHost": false,
+  "requiresIndependentAgents": true,
+  "monitorIntervalSeconds": 300,
+  "monitorPreference": "wait-first",
+  "monitorFallbacks": [
+    "native-timer",
+    "active-session"
+  ],
+  "minimumContributors": 2,
+  "capabilities": [
+    "loop-review",
+    "loop-execution"
+  ],
+  "noRepairCorroboration": "independent-verifier-then-original-reviewer-acknowledgement"
+}

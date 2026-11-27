@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
-"""Portable plan contract v2. Validation checks structure, not truth or permission."""
+"""Plan contract v2 plus mandatory versioned workflow admission declarations."""
 import argparse
 import hashlib
 import json
 import re
 import sys
 from pathlib import Path
+from workflow_log import traced, emit
+from workflow_contract import file_hash, validate_contract, BOUNDARY
 
 ROOT = Path("documents/tasks/development")
 FILES = ("checklist.md", "fix-plan.md", "test-plan.md", "critique.md", "results.md")
@@ -14,7 +16,7 @@ STATES = {"draft", "planned", "criticized", "executing", "blocked", "complete"}
 PATTERN = re.compile(r"^\d{4}-\d{2}-\d{2}-\d{5}-[a-z0-9][a-z0-9-]*$")
 
 def digest(path):
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    return file_hash(path, checklist=Path(path).name == "checklist.md")
 
 def request_hashes(data):
     sources = data.get("requestSources")
@@ -48,6 +50,8 @@ def seal_request_sources(data):
 def definition_hash(data):
     keys = ("projectRoot", "recordPath", "planRevision", "sourceBaseline",
             "scope", "requirements", "steps", "checks", "requestSources", "requestHashes")
+    if "workflowPreset" in data:
+        keys += ("workflowPreset",)
     encoded = json.dumps({key: data.get(key) for key in keys},
                          sort_keys=True, separators=(",", ":")).encode()
     return hashlib.sha256(encoded).hexdigest()
@@ -96,7 +100,24 @@ def select(project_root, explicit=None):
                          ", ".join(p.name for p, _ in candidates))
     return candidates[0]
 
-def gate(record, data, project_root, resume=False):
+@traced("gate")
+def gate(record, data, project_root, resume=False, *, planning=False, require_critique=False,
+         review_only=False):
+    """Validate execution by default; review_only validates criticism without admitting writes."""
+    if planning and review_only:
+        raise ValueError("planning and review-only validation are distinct stages")
+    from route_workflow import preset_options
+    preset_options(data.get("workflowPreset", "A"))
+    if data.get("workflowPreset", "").upper() == "GS":
+        sources = data.get("requestSources")
+        if not isinstance(sources, list) or not any(
+            isinstance(source, dict) and source.get("id") == "CA1"
+            and source.get("role") == "context" for source in sources
+        ):
+            raise ValueError("GS requires the original codebase assessment as context source CA1")
+        if not planning and data.get("critiqueOutcome") not in {"ready", "revised"}:
+            raise ValueError("GS requires criticism against the codebase assessment before execution")
+    # require_critique remains accepted for old callers. Omission/False never waives review.
     def text_list(value):
         return isinstance(value, list) and bool(value) and all(isinstance(x, str) and x.strip() for x in value)
     if data.get("contractVersion") != 2:
@@ -109,14 +130,18 @@ def gate(record, data, project_root, resume=False):
     allowed = {"executing", "blocked"} if resume else {"planned", "criticized"}
     if data["status"] not in allowed:
         raise ValueError("status not eligible; interrupted work requires explicit --resume")
-    if data.get("readiness") != "ready" or data.get("blockers") != []:
+    if data.get("blockers") != []:
         raise ValueError("unresolved readiness or blockers")
+    if not planning and data.get("critiqueOutcome") not in {"ready", "revised"}:
+        raise ValueError("every execution requires current criticism before execution")
+    if not planning and not review_only and data.get("readiness") != "ready":
+        raise ValueError("unresolved readiness or blockers; planning alone is not execution-ready")
     if data.get("critiqueOutcome") not in {"not_requested", "ready", "revised"}:
         raise ValueError("critique is blocked or unfinished")
     revision = data.get("planRevision")
     if type(revision) is not int or revision < 1:
         raise ValueError("planRevision must be a positive integer")
-    if data.get("critiqueOutcome") != "not_requested":
+    if not planning:
         if data.get("reviewedPlanRevision") != revision:
             raise ValueError("critique covers a different plan revision")
         if data.get("critiqueHash") != digest(record / "critique.md"):
@@ -200,6 +225,10 @@ def gate(record, data, project_root, resume=False):
             raise ValueError("plan changed since readiness review: " + name)
     if data.get("definitionHash") != definition_hash(data):
         raise ValueError("plan metadata changed since readiness review")
+    if not planning:
+        validate_contract(record, data, require_product_write=not review_only)
+        if data["workflowContract"]["review"]["decision"] != data["critiqueOutcome"]:
+            raise ValueError("critique outcome differs from the completed workflow review")
     return True
 
 def main(default_execution=False):
@@ -207,6 +236,7 @@ def main(default_execution=False):
     parser.add_argument("--project-root", required=True)
     parser.add_argument("--record")
     parser.add_argument("--execution", action="store_true")
+    parser.add_argument("--require-critique", action="store_true", help="Compatibility flag; criticism is always required for execution/resume")
     parser.add_argument("--resume", action="store_true")
     args = parser.parse_args()
     try:
@@ -214,8 +244,11 @@ def main(default_execution=False):
         if args.resume and not args.record:
             raise ValueError("--resume requires an explicit --record")
         if default_execution or args.execution or args.resume:
-            gate(record, data, args.project_root, args.resume)
-        print(json.dumps({"status": "resolved", "recordPath": str(record), "record": data}, indent=2))
+            gate(record, data, args.project_root, args.resume, require_critique=args.require_critique)
+        emit("record.resolve", root=args.project_root, record=str(record), preset=data.get("workflowPreset"), outcome="success")
+        print(json.dumps({"status": "resolved", "recordPath": str(record), "record": data,
+                          "executionAdmitted": bool(default_execution or args.execution or args.resume),
+                          "boundary": BOUNDARY}, indent=2))
         return 0
     except (OSError, ValueError, TypeError, KeyError) as error:
         print(str(error), file=sys.stderr)

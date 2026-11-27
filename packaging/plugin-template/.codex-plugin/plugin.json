@@ -1,0 +1,54 @@
+{
+  "interface": {
+    "capabilities": [
+      "Interactive"
+    ],
+    "category": "Developer Tools",
+    "composerIcon": "./assets/composer.png",
+    "defaultPrompt": [
+      "auto Plan, implement and verify this change:",
+      "plan Investigate this request and produce a criticized plan:",
+      "loop Compare the reference with my implementation and resolve the differences:"
+    ],
+    "developerName": "AIPieksel",
+    "displayName": "AI Development Workflow",
+    "logo": "./assets/logo.png",
+    "longDescription": "AI Development Workflow coordinates software changes through captured scope, planning, independent criticism, implementation and verification. Auto selects a concrete Plan, Build, Review or Loop mode and requires real specialist agents. Known localized builds use the Fast Engineer; cross-page, cross-feature and shared-contract changes require Architect advice before final planning. UI expertise applies to relevant assignments. The workflow explains its routing, phases, owners and actual agent count. Existing commands remain available as advanced controls. Hosts must provide actual worker dispatch; unavailable capabilities are reported as blockers. Loop retains separate review and execution agents with wait-first monitoring.",
+    "privacyPolicyURL": "https://aipieksel.com/ai-development-workflow/privacy/",
+    "shortDescription": "Plan, build, review and loop",
+    "supportURL": "https://aipieksel.com/ai-development-workflow/support/",
+    "termsOfServiceURL": "https://aipieksel.com/ai-development-workflow/terms/",
+    "websiteURL": "https://aipieksel.com/ai-development-workflow/"
+  },
+  "extensions": {
+    "com.openai": {
+      "review": {
+        "commerce": false,
+        "commerce_description": "No purchases or paid access."
+      },
+      "publication": {
+        "countries": [],
+        "release_notes": "Version 2.0.4 adds task-aware discovery for recipes, specialists, operations and references, with explainable grouped candidates and auditable selection evidence."
+      }
+    }
+  },
+  "name": "ai-development-workflow",
+  "version": "2.0.4",
+  "description": "Plan, build, review and improve software through scoped workflows, automatic UI expertise and verified delivery.",
+  "author": {
+    "name": "AIPieksel"
+  },
+  "keywords": [
+    "development",
+    "planning",
+    "review",
+    "verification",
+    "workflow",
+    "ui-design",
+    "loop",
+    "coding"
+  ],
+  "repository": "https://github.com/aipieksel/ai-development-workflow",
+  "license": "MIT",
+  "skills": "./skills"
+}

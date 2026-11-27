@@ -10,8 +10,15 @@ from pathlib import Path
 SCRIPTS = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS))
 from plan_record import FILES, PLAN_FILES, digest, definition_hash, gate, load_record, select, request_hashes
+from workflow_contract import (
+    briefing_binding, pending_contract, render_briefing, review_binding,
+    selection as contract_selection,
+)
+from contract_fixture import (declare_discovery, declare_policy, declare_review, refresh_contract,
+                              normalize_fixture_assignments, make_readonly_contract)
+from task_policy import ASSESSOR, EXECUTOR
 
-def fixture(root, suffix="first"):
+def fixture(root, suffix="first", *, reviewed=True):
     record = root / "documents/tasks/development" / ("2026-09-07-00001-" + suffix)
     record.mkdir(parents=True)
     for name in FILES:
@@ -19,7 +26,7 @@ def fixture(root, suffix="first"):
     data = {
         "schema": "project-development-plan/v1", "contractVersion": 2,
         "projectRoot": str(root.resolve()), "recordPath": str(record.relative_to(root)),
-        "status": "planned", "readiness": "ready", "blockers": [],
+        "status": "planned", "readiness": "not_ready", "blockers": [],
         "planRevision": 1, "critiqueOutcome": "not_requested",
         "sourceBaseline": {"description": "Inspected fixture source"},
         "scope": {"in": ["Fix requested behavior"], "out": ["Deployment"]},
@@ -34,6 +41,9 @@ def fixture(root, suffix="first"):
     }
     data["requestHashes"] = request_hashes(data)
     data["definitionHash"] = definition_hash(data)
+    data["workflowContract"] = pending_contract()
+    if reviewed:
+        declare_review(record, data)
     write(record, data)
     return record, data
 
@@ -49,6 +59,134 @@ class ContractTests(unittest.TestCase):
 
     def test_ready_plan(self):
         self.assertTrue(gate(*select(self.root), self.root))
+
+    def test_missing_criticism_blocks_execution(self):
+        self.data["critiqueOutcome"] = "not_requested"
+        with self.assertRaisesRegex(ValueError, "every execution requires current criticism"):
+            gate(self.record, self.data, self.root)
+
+    def test_false_compatibility_flag_cannot_waive_criticism(self):
+        self.data["critiqueOutcome"] = "not_requested"
+        with self.assertRaisesRegex(ValueError, "every execution requires current criticism"):
+            gate(self.record, self.data, self.root, require_critique=False)
+
+    def test_incomplete_contract_review_blocks_legacy_ready_flag(self):
+        self.data["workflowContract"]["review"]["status"] = "pending"
+        with self.assertRaisesRegex(ValueError, "current criticism is incomplete or blocked"):
+            gate(self.record, self.data, self.root)
+
+    def test_missing_briefing_blocks_execution(self):
+        self.data["workflowContract"]["briefing"]["status"] = "pending"
+        with self.assertRaisesRegex(ValueError, "public briefing declaration is missing"):
+            gate(self.record, self.data, self.root)
+
+    def test_new_pending_contract_declares_current_discovery_fields(self):
+        selected = pending_contract()["selection"]
+        self.assertEqual(selected["selectionSchema"], "ai-development-workflow/selection-v2")
+        self.assertEqual(selected["discovery"]["schema"], "ai-development-workflow/discovery-v1")
+        self.assertEqual(selected["discovery"]["initialQuery"], "")
+
+    def test_executor_cli_rejects_missing_or_stale_discovery(self):
+        script = SCRIPTS / "resolve_plan_record.py"
+        for defect in ("missing", "stale"):
+            with self.subTest(defect=defect):
+                data = copy.deepcopy(self.data)
+                selected = data["workflowContract"]["selection"]
+                if defect == "missing":
+                    selected.pop("selectionSchema")
+                    selected.pop("discovery")
+                else:
+                    selected["discovery"]["indexFingerprint"] = "stale"
+                write(self.record, data)
+                result = subprocess.run(
+                    [sys.executable, str(script), "--project-root", str(self.root),
+                     "--record", str(self.record), "--execution"],
+                    capture_output=True, text=True,
+                )
+                self.assertEqual(result.returncode, 2, result.stdout + result.stderr)
+                self.assertIn("discovery", result.stderr)
+
+    def test_discovery_is_bound_to_the_completed_review(self):
+        declare_discovery(self.data["workflowContract"], "Review a different current workflow route")
+        with self.assertRaisesRegex(ValueError, "criticism does not cover"):
+            gate(self.record, self.data, self.root)
+
+    def test_loop_and_xr_require_independent_criticism_even_with_self_permitted_policy(self):
+        for value in ("loop", "LOOP", "XR", "xr", "mode:loop", "MODE:XR", " loop ",
+                      "ai-dev-loop", "ai-dev-execute-review", "mode:ai-dev-loop"):
+            with self.subTest(workflow=value):
+                data = copy.deepcopy(self.data)
+                contract = data["workflowContract"]
+                contract["selection"].update(workflow=value, mode="loop", reviewPolicy="self-permitted")
+                with self.assertRaisesRegex(ValueError, "writing work requires independent criticism"):
+                    gate(self.record, data, self.root)
+
+    def test_loop_accepts_a_current_synthetic_independent_review_declaration(self):
+        contract = self.data["workflowContract"]
+        contract["selection"].update(workflow="loop", mode="loop")
+        refresh_contract(self.record, self.data)
+        self.assertTrue(gate(self.record, self.data, self.root))
+
+    def test_plan_and_review_contracts_reject_every_product_write_scope_in_any_late_phase(self):
+        for field in ("workflow", "mode"):
+            for value in ("plan", "review", "mode:plan", "MODE:REVIEW"):
+                for phase_id in ("execute", "verify"):
+                    for write_scope in ("repo-write-scoped", "tests-only", "docs-only", "external-write"):
+                        with self.subTest(field=field, value=value, phase=phase_id, scope=write_scope):
+                            contract = copy.deepcopy(self.data["workflowContract"])
+                            for phase in contract["selection"]["phases"]:
+                                if phase["id"] in {"execute", "verify"}:
+                                    phase["writeScope"] = write_scope if phase["id"] == phase_id else "record-only"
+                            # Delegate whichever source writer this case selects.
+                            assignments = contract["selection"]["delegation"]["assignments"]
+                            for assignment in assignments:
+                                if assignment["phaseId"] == "execute":
+                                    assignment["phaseId"] = phase_id
+                                    if write_scope == "docs-only":
+                                        assignment["capabilities"].append("update-docs")
+                                elif assignment["phaseId"] == "accept":
+                                    assignment["independentFrom"] = ["plan", phase_id]
+                            if write_scope == "external-write":
+                                # A legal publication has delegated preparation
+                                # and independent acceptance before its writer.
+                                selected = contract["selection"]
+                                selected["phases"] = selected["phases"][:3] + [
+                                    {"id": "prepare", "title": "Inspect artifact", "kind": "other",
+                                     "operation": "inspect-prepared-artifact", "writeScope": "read-only",
+                                     "owner": "specialist", "dependsOn": ["critique"]},
+                                    {"id": "accept", "title": "Accept artifact", "kind": "verify",
+                                     "operation": "accept-prepared-artifact", "writeScope": "read-only",
+                                     "owner": "independent reviewer", "dependsOn": ["prepare"]},
+                                    {"id": phase_id, "title": "Publish", "kind": "execute",
+                                     "operation": "publish-accepted-artifact", "writeScope": write_scope,
+                                     "owner": "coordinator", "dependsOn": ["accept"]},
+                                ]
+                                selected["delegation"]["assignments"] = [assignments[0],
+                                    {"phaseId": "prepare", "profile": EXECUTOR, "independentFrom": []},
+                                    {"phaseId": "accept", "profile": "agents/code-reviewer/agent.md", "independentFrom": ["plan", "prepare"]},
+                                ]
+                            normalize_fixture_assignments(contract)
+                            contract_selection(contract)
+                            contract["selection"][field] = value
+                            with self.assertRaisesRegex(ValueError, "Plan and Review modes cannot authorize product writes"):
+                                contract_selection(contract)
+                            if write_scope == "repo-write-scoped":
+                                data = {**self.data, "workflowContract": contract}
+                                with self.assertRaisesRegex(ValueError, "Plan and Review modes cannot authorize product writes"):
+                                    gate(self.record, data, self.root)
+
+    def test_record_only_plan_and_review_contract_selections_remain_valid(self):
+        for field in ("workflow", "mode"):
+            for value in ("plan", "review", "mode:plan", "MODE:REVIEW"):
+                with self.subTest(field=field, value=value):
+                    data = copy.deepcopy(self.data)
+                    concrete_mode = value.lower().removeprefix("mode:")
+                    contract = make_readonly_contract(self.record, data, concrete_mode)
+                    contract["selection"][field] = value if field == "workflow" else concrete_mode
+                    actual, phases = contract_selection(contract)
+                    self.assertEqual(actual[field], value if field == "workflow" else concrete_mode)
+                    self.assertTrue({"scope", "plan", "critique", "report"} <= set(phases))
+                    self.assertEqual({phase["writeScope"] for phase in phases.values()}, {"record-only"})
 
     def test_metadata_edit_invalidates_readiness(self):
         self.data["steps"][0]["change"] = "A different change"
@@ -161,17 +299,25 @@ class ContractTests(unittest.TestCase):
         self.assertEqual((self.record / "record.json").read_bytes(), before)
 
     def test_finalize_then_criticize_then_execute(self):
+        self.record, self.data = fixture(self.root, "unreviewed", reviewed=False)
         for stage in ("planned", "criticized"):
             if stage == "criticized":
-                self.data["critiqueOutcome"] = "revised"
                 self.data["planRevision"] = 2
+                declare_review(self.record, self.data, outcome="revised", finalized=False)
                 write(self.record, self.data)
             result = subprocess.run([sys.executable, str(SCRIPTS / "finalize_plan_record.py"),
                                      "--project-root", str(self.root), "--record", str(self.record),
                                      "--stage", stage], capture_output=True, text=True)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             self.record, self.data = load_record(self.root, self.record)
-            self.assertTrue(gate(self.record, self.data, self.root))
+            self.assertFalse(json.loads(result.stdout)["executionAdmitted"])
+            if stage == "planned":
+                self.assertEqual(self.data["readiness"], "not_ready")
+                with self.assertRaisesRegex(ValueError, "current criticism"):
+                    gate(self.record, self.data, self.root)
+            else:
+                self.assertEqual(self.data["reviewedPlanRevision"], 2)
+                self.assertTrue(gate(self.record, self.data, self.root))
 
 
     def test_invalid_collection_types_fail_cleanly(self):
@@ -188,9 +334,19 @@ class ContractTests(unittest.TestCase):
         self.data["readiness"] = "blocked"
         write(self.record, self.data)
         (self.record / "checklist.md").write_text("# Checklist\n- [x] Verified first outcome\n")
-        result = subprocess.run([sys.executable, str(SCRIPTS / "finalize_plan_record.py"),
-                                 "--project-root", str(self.root), "--record", str(self.record),
-                                 "--stage", "planned", "--resume"], capture_output=True, text=True)
+        command = [sys.executable, str(SCRIPTS / "finalize_plan_record.py"),
+                   "--project-root", str(self.root), "--record", str(self.record)]
+        before = (self.record / "record.json").read_bytes()
+        stale = subprocess.run(command + ["--stage", "planned", "--resume"],
+                               capture_output=True, text=True)
+        self.assertEqual(stale.returncode, 2)
+        self.assertIn("fresh critique", stale.stdout)
+        self.assertEqual((self.record / "record.json").read_bytes(), before)
+        self.data["planRevision"] += 1
+        declare_review(self.record, self.data, outcome="revised", finalized=False)
+        write(self.record, self.data)
+        result = subprocess.run(command + ["--stage", "criticized", "--resume"],
+                                capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         record, data = select(self.root, self.record)
         self.assertEqual(data["status"], "blocked")
@@ -221,7 +377,7 @@ class ContractTests(unittest.TestCase):
         stale = subprocess.run(command + ["planned"], capture_output=True, text=True)
         self.assertEqual(stale.returncode, 2)
         self.assertIn("fresh critique", stale.stdout)
-        self.data["critiqueOutcome"] = "revised"
+        declare_review(self.record, self.data, outcome="revised", finalized=False)
         write(self.record, self.data)
         reviewed = subprocess.run(command + ["criticized"], capture_output=True, text=True)
         self.assertEqual(reviewed.returncode, 0, reviewed.stdout + reviewed.stderr)
